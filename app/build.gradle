@@ -30,8 +30,20 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
 
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+
+    // Picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
 
+    // This library handles authentication and authorization
+    implementation 'com.spotify.android:auth:1.0.0-alpha'
+
+    // This library handles music playback
+    implementation 'com.spotify.sdk:spotify-player-24-noconnect-2.20b@aar'
 
     // Tests
     testImplementation 'junit:junit:4.12'
