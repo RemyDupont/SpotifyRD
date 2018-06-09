@@ -1,6 +1,7 @@
 package com.remydupont.spotifyrd.network
 
 import com.remydupont.spotifyrd.models.AlbumResponse
+import com.remydupont.spotifyrd.models.CategoriesResponse
 import com.remydupont.spotifyrd.models.FeaturedPlayListsResponse
 import com.remydupont.spotifyrd.models.Track
 import okhttp3.ResponseBody
@@ -22,5 +23,8 @@ interface SpotifyService {
 
     @GET("v1/browse/featured-playlists")
     fun getFeatured(): Call<FeaturedPlayListsResponse>
+
+    @GET("v1/browse/categories")
+    fun getCategories(): Call<CategoriesResponse>
 
 }
