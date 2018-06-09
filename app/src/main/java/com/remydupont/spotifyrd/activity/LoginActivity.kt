@@ -19,10 +19,13 @@ class LoginActivity : AppCompatActivity(){
         setContentView(R.layout.activity_login)
 
 
-        if (SharedPrefHelper.getInstance().spotifyToken != null && SharedPrefHelper.getInstance().spotifyToken.isNotEmpty()) {
+        if (SharedPrefHelper.getInstance().spotifyToken != null
+                && SharedPrefHelper.getInstance().spotifyToken.isNotEmpty()
+                && SharedPrefHelper.getInstance().isTokenValid) {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         } else {
+            SharedPrefHelper.getInstance().deleteSpotifyToken()
             init()
         }
 
