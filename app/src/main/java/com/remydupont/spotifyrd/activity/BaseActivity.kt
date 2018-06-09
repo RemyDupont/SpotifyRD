@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
 import com.remydupont.spotifyrd.R
+import com.remydupont.spotifyrd.extension.longToast
 import com.remydupont.spotifyrd.helper.SharedPrefHelper
 import com.spotify.sdk.android.player.*
 import com.spotify.sdk.android.authentication.LoginActivity.REQUEST_CODE
@@ -22,20 +23,6 @@ import com.spotify.sdk.android.authentication.LoginActivity
 open class BaseActivity: AppCompatActivity(), Player.NotificationCallback, ConnectionStateCallback {
 
     open var mPlayer: Player? = null
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent) {
-        super.onActivityResult(requestCode, resultCode, intent)
-
-        if (requestCode == REQUEST_CODE) {
-            val response = AuthenticationClient.getResponse(resultCode, intent)
-            Log.e("BaseActivity", response.code)
-            if (response.type == AuthenticationResponse.Type.TOKEN) {
-                SharedPrefHelper.getInstance().storeSpotifyToken(response.accessToken)
-                Log.d("SpotifyLogin",
-                        "code: ${response.code}, error: ${response.error},expirein: ${response.expiresIn}, state: ${response.state}, type: ${response.type}")
-            }
-        }
-    }
 
     override fun onDestroy() {
         Spotify.destroyPlayer(this)
@@ -80,13 +67,9 @@ open class BaseActivity: AppCompatActivity(), Player.NotificationCallback, Conne
     }
 
     override fun onLoginFailed(error: Error?) {
-        Log.d("MainActivity", "Login failed aaa")
-        Log.d("MainActivity", error.toString())
-        val request = AuthenticationRequest
-                .Builder(getString(R.string.client_id), AuthenticationResponse.Type.CODE,  getString(R.string.redirect_uri))
-                .setScopes(arrayOf("user-read-private", "streaming"))
-                .build()
-        AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request)
+        longToast("Session Expired")
+        startActivity(Intent(this, com.remydupont.spotifyrd.activity.LoginActivity::class.java))
+        finish()
     }
 
     override fun onTemporaryError() {
