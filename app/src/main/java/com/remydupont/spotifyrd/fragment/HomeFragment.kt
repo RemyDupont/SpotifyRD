@@ -10,6 +10,7 @@ import com.remydupont.spotifyrd.R
 import com.remydupont.spotifyrd.extension.inflate
 import com.remydupont.spotifyrd.extension.longToast
 import com.remydupont.spotifyrd.models.AlbumResponse
+import com.remydupont.spotifyrd.models.Track
 import com.remydupont.spotifyrd.network.NetworkManager
 import kotlinx.android.synthetic.main.fragment_home.*
 import retrofit2.Call
@@ -24,6 +25,7 @@ import retrofit2.Response
 class HomeFragment: BaseFragment() {
 
     private var playerListener: PlayerListener? = null
+    private var track: Track? = null
 
     companion object {
         fun newInstance(): HomeFragment {
@@ -53,17 +55,27 @@ class HomeFragment: BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         init()
 
-        NetworkManager.instance?.service?.getNewReleases()?.enqueue(object : Callback<AlbumResponse> {
+        /*NetworkManager.instance?.service?.getNewReleases()?.enqueue(object : Callback<AlbumResponse> {
             override fun onResponse(call: Call<AlbumResponse>?, response: Response<AlbumResponse>?) {
                 response?.body()?.let {
-                    longToast("OK")
+                    longToast("New Releases OK")
                 }
             }
 
             override fun onFailure(call: Call<AlbumResponse>?, t: Throwable?) {
-                longToast("Failure")
+                longToast("New Releases Failure")
             }
-        } )
+        } )*/
+
+        NetworkManager.instance?.service?.getTrack("2TpxZ7JUBn3uw46aR7qd6V")?.enqueue(object : Callback<Track> {
+            override fun onResponse(call: Call<Track>?, response: Response<Track>?) {
+                track = response?.body()
+            }
+
+            override fun onFailure(call: Call<Track>?, t: Throwable?) {
+                longToast("Track Fail")
+            }
+        })
     }
 
 
@@ -72,7 +84,9 @@ class HomeFragment: BaseFragment() {
      */
     private fun init() {
         play_btn.setOnClickListener {
-            playerListener?.playTrack("spotify:track:2TpxZ7JUBn3uw46aR7qd6V")
+            track?.let {
+                playerListener?.playTrack(it)
+            }
         }
 
         stop_btn.setOnClickListener {

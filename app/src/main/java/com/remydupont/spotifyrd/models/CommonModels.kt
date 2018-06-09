@@ -9,3 +9,7 @@ package com.remydupont.spotifyrd.models
 data class ExternalUrls(
         var spotify: String? = null
 )
+
+data class ExternalIds(
+        var isrc: String? = null
+)

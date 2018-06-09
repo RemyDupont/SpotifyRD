@@ -26,8 +26,9 @@ open class BaseActivity: AppCompatActivity(), Player.NotificationCallback, Conne
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent) {
         super.onActivityResult(requestCode, resultCode, intent)
 
-        if (requestCode == LoginActivity.REQUEST_CODE) {
+        if (requestCode == REQUEST_CODE) {
             val response = AuthenticationClient.getResponse(resultCode, intent)
+            Log.e("BaseActivity", response.code)
             if (response.type == AuthenticationResponse.Type.TOKEN) {
                 SharedPrefHelper.getInstance().storeSpotifyToken(response.accessToken)
                 Log.d("SpotifyLogin",
@@ -75,7 +76,7 @@ open class BaseActivity: AppCompatActivity(), Player.NotificationCallback, Conne
     }
 
     override fun onConnectionMessage(message: String?) {
-        Log.d("MainActivity", "Received connection message: " + message)
+        Log.d("MainActivity", "Received connection message: $message")
     }
 
     override fun onLoginFailed(error: Error?) {
@@ -83,7 +84,7 @@ open class BaseActivity: AppCompatActivity(), Player.NotificationCallback, Conne
         Log.d("MainActivity", error.toString())
         val request = AuthenticationRequest
                 .Builder(getString(R.string.client_id), AuthenticationResponse.Type.CODE,  getString(R.string.redirect_uri))
-                .setScopes(arrayOf("user-read-private", "playlist-read", "playlist-read-private", "streaming"))
+                .setScopes(arrayOf("user-read-private", "streaming"))
                 .build()
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request)
     }
