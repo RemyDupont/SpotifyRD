@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="base_url">https://accounts.spotify.com/api/</string>
+    <string name="base_url">https://api.spotify.com/</string>
     <string name="client_id">70c6fb9b8338428293ea6160323f2190</string>
+    <string name="redirect_uri">https://remydupont.com/callbcak</string>
 </resources>

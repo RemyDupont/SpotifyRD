@@ -1,4 +1,4 @@
-package com.remydupont.spotifyrd
+package com.remydupont.spotifyrd.application
 
 import android.app.Application
 
