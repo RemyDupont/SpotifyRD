@@ -22,8 +22,8 @@ class LoginActivity : AppCompatActivity(){
         if (SharedPrefHelper.getInstance().spotifyToken != null
                 && SharedPrefHelper.getInstance().spotifyToken.isNotEmpty()
                 && SharedPrefHelper.getInstance().isTokenValid) {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
         } else {
             SharedPrefHelper.getInstance().deleteSpotifyToken()
             init()
@@ -42,6 +42,7 @@ class LoginActivity : AppCompatActivity(){
                 Log.d("SpotifyLogin",
                         "code: ${response.code}, error: ${response.error},expirein: ${response.expiresIn}, state: ${response.state}, type: ${response.type}")
                 startActivity(Intent(this, MainActivity::class.java))
+                finish()
             }
         }
     }

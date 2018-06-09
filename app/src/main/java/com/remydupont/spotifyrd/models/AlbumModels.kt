@@ -26,16 +26,10 @@ data class AlbumItem(
         var external_urls: ExternalUrls? = null,
         var href: String? = null,
         var id: String? = null,
-        var images: List<AlbumImage>? = null,
+        var images: List<Image>? = null,
         var name: String? = null,
         var release_date: String? = null,
         var release_date_precision: String? = null,
         var type: String? = null,
         var uri: String? = null
-)
-
-data class AlbumImage(
-        var url: String? = null,
-        var width: Int? = null,
-        var height: Int? = null
 )

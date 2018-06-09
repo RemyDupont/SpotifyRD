@@ -13,3 +13,9 @@ data class ExternalUrls(
 data class ExternalIds(
         var isrc: String? = null
 )
+
+data class Image(
+        var url: String? = null,
+        var width: Int? = null,
+        var height: Int? = null
+)

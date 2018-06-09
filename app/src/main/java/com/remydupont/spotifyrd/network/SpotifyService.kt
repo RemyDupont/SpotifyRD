@@ -1,6 +1,7 @@
 package com.remydupont.spotifyrd.network
 
 import com.remydupont.spotifyrd.models.AlbumResponse
+import com.remydupont.spotifyrd.models.FeaturedPlayListsResponse
 import com.remydupont.spotifyrd.models.Track
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -18,5 +19,8 @@ interface SpotifyService {
 
     @GET("v1/tracks/{id}")
     fun getTrack(@Path("id") id: String): Call<Track>
+
+    @GET("v1/browse/featured-playlists")
+    fun getFeatured(): Call<FeaturedPlayListsResponse>
 
 }

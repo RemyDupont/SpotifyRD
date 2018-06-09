@@ -2,14 +2,18 @@ package com.remydupont.spotifyrd.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.remydupont.spotifyrd.adapter.HorizontalAlbumAdapter
 import com.remydupont.spotifyrd.listener.PlayerListener
 import com.remydupont.spotifyrd.R
+import com.remydupont.spotifyrd.adapter.HorizontalFeaturedAdapter
 import com.remydupont.spotifyrd.extension.inflate
 import com.remydupont.spotifyrd.extension.longToast
 import com.remydupont.spotifyrd.models.AlbumResponse
+import com.remydupont.spotifyrd.models.FeaturedPlayListsResponse
 import com.remydupont.spotifyrd.models.Track
 import com.remydupont.spotifyrd.network.NetworkManager
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -55,17 +59,36 @@ class HomeFragment: BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         init()
 
-        /*NetworkManager.instance?.service?.getNewReleases()?.enqueue(object : Callback<AlbumResponse> {
+        NetworkManager.instance?.service?.getNewReleases()?.enqueue(object : Callback<AlbumResponse> {
             override fun onResponse(call: Call<AlbumResponse>?, response: Response<AlbumResponse>?) {
-                response?.body()?.let {
-                    longToast("New Releases OK")
+                response?.body()?.albums?.items?.let {
+                    newReleasesRecyclerView.apply {
+                        layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                        adapter = HorizontalAlbumAdapter(it)
+                    }
                 }
             }
 
             override fun onFailure(call: Call<AlbumResponse>?, t: Throwable?) {
                 longToast("New Releases Failure")
             }
-        } )*/
+        } )
+
+        NetworkManager.instance?.service?.getFeatured()?.enqueue(object : Callback<FeaturedPlayListsResponse> {
+            override fun onResponse(call: Call<FeaturedPlayListsResponse>?, response: Response<FeaturedPlayListsResponse>?) {
+                response?.body()?.playlists?.items?.let {
+                    featuredPlaylistsTitle.text = response.body()?.message ?: "Featured Playlists"
+                    featuredRecyclerView.apply {
+                        layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                        adapter = HorizontalFeaturedAdapter(it)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<FeaturedPlayListsResponse>?, t: Throwable?) {
+                longToast("Feature Failure")
+            }
+        } )
 
         NetworkManager.instance?.service?.getTrack("2TpxZ7JUBn3uw46aR7qd6V")?.enqueue(object : Callback<Track> {
             override fun onResponse(call: Call<Track>?, response: Response<Track>?) {
