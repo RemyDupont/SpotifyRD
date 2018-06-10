@@ -10,6 +10,7 @@ import com.remydupont.spotifyrd.adapter.HorizontalAlbumAdapter
 import com.remydupont.spotifyrd.listener.PlayerListener
 import com.remydupont.spotifyrd.R
 import com.remydupont.spotifyrd.adapter.HorizontalFeaturedAdapter
+import com.remydupont.spotifyrd.extension.fetch
 import com.remydupont.spotifyrd.extension.inflate
 import com.remydupont.spotifyrd.extension.longToast
 import com.remydupont.spotifyrd.models.AlbumResponse
@@ -57,55 +58,19 @@ class HomeFragment: BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        init()
 
-        NetworkManager.instance?.service?.getNewReleases()?.enqueue(object : Callback<AlbumResponse> {
-            override fun onResponse(call: Call<AlbumResponse>?, response: Response<AlbumResponse>?) {
-                response?.body()?.albums?.items?.let {
-                    newReleasesRecyclerView.apply {
-                        layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                        adapter = HorizontalAlbumAdapter(it)
-                    }
-                }
-            }
+        initView()
+        executeAPICalls()
 
-            override fun onFailure(call: Call<AlbumResponse>?, t: Throwable?) {
-                longToast("New Releases Failure")
-            }
-        } )
-
-        NetworkManager.instance?.service?.getFeatured()?.enqueue(object : Callback<FeaturedPlayListsResponse> {
-            override fun onResponse(call: Call<FeaturedPlayListsResponse>?, response: Response<FeaturedPlayListsResponse>?) {
-                response?.body()?.playlists?.items?.let {
-                    featuredPlaylistsTitle.text = response.body()?.message ?: "Featured Playlists"
-                    featuredRecyclerView.apply {
-                        layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                        adapter = HorizontalFeaturedAdapter(it)
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<FeaturedPlayListsResponse>?, t: Throwable?) {
-                longToast("Feature Failure")
-            }
-        } )
-
-        NetworkManager.instance?.service?.getTrack("2TpxZ7JUBn3uw46aR7qd6V")?.enqueue(object : Callback<Track> {
-            override fun onResponse(call: Call<Track>?, response: Response<Track>?) {
-                track = response?.body()
-            }
-
-            override fun onFailure(call: Call<Track>?, t: Throwable?) {
-                longToast("Track Fail")
-            }
-        })
     }
+
+
 
 
     /**
      * Private Functions
      */
-    private fun init() {
+    private fun initView() {
         play_btn.setOnClickListener {
             track?.let {
                 playerListener?.playTrack(it)
@@ -117,7 +82,37 @@ class HomeFragment: BaseFragment() {
         }
     }
 
+    private fun executeAPICalls() {
 
+        NetworkManager.instance?.service?.getTrack("2TpxZ7JUBn3uw46aR7qd6V")?.fetch {
+            onResponse { _, response ->
+                response?.body()?.let { track = it }
+            }
+        }
+
+        NetworkManager.instance?.service?.getNewReleases()?.fetch {
+            onResponse { _, response ->
+                response?.body()?.albums?.items?.let {
+                    newReleasesRecyclerView.apply {
+                        layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                        adapter = HorizontalAlbumAdapter(it)
+                    }
+                }
+            }
+        }
+
+        NetworkManager.instance?.service?.getFeatured()?.fetch {
+            onResponse { _, response ->
+                response?.body()?.playlists?.items?.let {
+                    featuredPlaylistsTitle.text = response.body()?.message ?: "Featured Playlists"
+                    featuredRecyclerView.apply {
+                        layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                        adapter = HorizontalFeaturedAdapter(it)
+                    }
+                }
+            }
+        }
+    }
 
 }
 

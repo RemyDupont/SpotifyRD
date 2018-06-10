@@ -33,6 +33,9 @@ class HorizontalFeaturedAdapter(var items: List<PlayList>): RecyclerView.Adapter
 
 
 
+    /**
+     * View Holder
+     */
     inner class FeaturedViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
         private var playlistImage: ImageView = itemView.findViewById(R.id.playlistCover)

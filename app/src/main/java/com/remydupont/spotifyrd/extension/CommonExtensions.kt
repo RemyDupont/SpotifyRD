@@ -1,12 +1,16 @@
 package com.remydupont.spotifyrd.extension
 
 import android.app.Activity
+import android.content.Context
+import android.graphics.drawable.Drawable
 import android.support.annotation.StringRes
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.remydupont.spotifyrd.helper.Constants
 
 /**
  * CommonExtensions
@@ -15,13 +19,51 @@ import android.widget.Toast
  */
 
 
+/**
+ *      Layout Inflation
+ */
 fun ViewGroup.inflate(layoutId: Int, attachToRoot: Boolean = false): View {
     return LayoutInflater.from(context).inflate(layoutId, this, attachToRoot)
 }
 
 
 
+/**
+ *      View Visibility
+ */
+fun View.visible() { visibility = View.VISIBLE }
+fun View.invisible() { visibility = View.INVISIBLE }
+fun View.gone() { visibility = View.GONE }
 
+fun View?.isVisible(): Boolean { return if (this == null) false else visibility == View.VISIBLE }
+
+fun View.enable() {
+    isEnabled = true
+    isClickable = true
+}
+
+fun View.disable() {
+    isEnabled = false
+    isClickable = false
+}
+
+
+
+/**
+ *      Strings
+ */
+fun Context.string(resId: Int): String = getString(resId) ?: Constants.EMPTY_STRING
+fun Fragment.string(resId: Int): String = activity?.string(resId) ?: Constants.EMPTY_STRING
+
+
+
+
+
+/**
+ *      Drawables
+ */
+fun Context.drawable(resId: Int): Drawable? = ContextCompat.getDrawable(this, resId)
+fun Fragment.drawable(resId: Int): Drawable? = activity?.drawable(resId)
 
 
 

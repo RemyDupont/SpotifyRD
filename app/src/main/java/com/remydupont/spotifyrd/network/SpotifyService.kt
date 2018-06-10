@@ -1,5 +1,6 @@
 package com.remydupont.spotifyrd.network
 
+import com.remydupont.spotifyrd.helper.Constants
 import com.remydupont.spotifyrd.models.*
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -27,8 +28,8 @@ interface SpotifyService {
     @GET("v1/search")
     fun search(
             @Query("q") query: String,
-            @Query("type") type: String,
-            @Query("limit") limit: Int
+            @Query("type") type: String = Constants.SEARCH_ARG_DEFAULT,
+            @Query("limit") limit: Int = 3
     ): Call<SearchResponse>
 
 }

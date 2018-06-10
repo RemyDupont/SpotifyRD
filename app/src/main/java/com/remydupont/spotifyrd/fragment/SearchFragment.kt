@@ -1,25 +1,26 @@
 package com.remydupont.spotifyrd.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView
 import com.remydupont.spotifyrd.R
 import com.remydupont.spotifyrd.adapter.SearchAdapter
+import com.remydupont.spotifyrd.extension.fetch
 import com.remydupont.spotifyrd.extension.inflate
-import com.remydupont.spotifyrd.extension.longToast
 import com.remydupont.spotifyrd.extension.textWatcher
 import com.remydupont.spotifyrd.models.HeaderItem
 import com.remydupont.spotifyrd.models.SearchResponse
 import com.remydupont.spotifyrd.models.ViewType
 import com.remydupont.spotifyrd.network.NetworkManager
 import kotlinx.android.synthetic.main.fragment_search.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.net.URLEncoder
+import android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT
+import android.content.Context.INPUT_METHOD_SERVICE
+import android.view.inputmethod.InputMethodManager
+
 
 /**
  * SearchFragment
@@ -36,6 +37,10 @@ class SearchFragment: BaseFragment() {
         }
     }
 
+
+    /**
+     * System Callbacks
+     */
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return container?.inflate(R.layout.fragment_search)
     }
@@ -47,24 +52,35 @@ class SearchFragment: BaseFragment() {
 
         searchView.textWatcher {
             afterTextChanged { s ->
-
                 val query: String = URLEncoder.encode(s.toString(), "UTF-8")
-                NetworkManager.instance?.service?.search(query, "artist,album,playlist", 3)
-                        ?.enqueue(object : Callback<SearchResponse> {
-                            override fun onResponse(call: Call<SearchResponse>?, response: Response<SearchResponse>?) {
-                                response?.body()?.let {
-                                    updateResults(it)
-                                }
-                            }
-
-                            override fun onFailure(call: Call<SearchResponse>?, t: Throwable?) {
-                                longToast("Feature Failure")
-                            }
-                        } )
+                NetworkManager.instance?.service?.search(query)?.fetch {
+                    onResponse { _, response ->
+                        response?.body()?.let {
+                            updateResults(it)
+                        }
+                    }
+                }
             }
         }
+
+        searchView.requestFocus()
+
+        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as?  InputMethodManager?
+        imm?.showSoftInput(searchView, InputMethodManager.SHOW_IMPLICIT)
     }
 
+    override fun onPause() {
+
+        searchView.clearFocus()
+        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager?
+        imm?.hideSoftInputFromWindow(searchView.windowToken, 0);
+        super.onPause()
+    }
+
+
+    /**
+     * Private Functions
+     */
     private fun updateResults(searchResponse: SearchResponse) {
         val data: MutableList<ViewType> = ArrayList()
 

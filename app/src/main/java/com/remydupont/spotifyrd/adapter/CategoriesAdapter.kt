@@ -31,8 +31,9 @@ class CategoriesAdapter(var items: List<Category>): RecyclerView.Adapter<Categor
     }
 
 
-
-
+    /**
+     * View Holder
+     */
     inner class CategoryViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
         private var categoryBackground: ImageView = itemView.findViewById(R.id.categoryBackground)

@@ -9,6 +9,7 @@ import android.widget.Toast
 import com.remydupont.spotifyrd.fragment.HomeFragment
 import com.remydupont.spotifyrd.listener.PlayerListener
 import com.remydupont.spotifyrd.R
+import com.remydupont.spotifyrd.extension.*
 import com.remydupont.spotifyrd.fragment.DiscoverFragment
 import com.remydupont.spotifyrd.fragment.SearchFragment
 import com.remydupont.spotifyrd.models.Track
@@ -22,10 +23,9 @@ import kotlinx.android.synthetic.main.bottom_sheet.*
 class MainActivity : BaseActivity(), PlayerListener {
 
 
-    private val bottomSheetBehavior by lazy {
-        BottomSheetBehavior.from(bottom_sheet)
-    }
     private var currentView: Int = 0
+    private val bottomSheetBehavior by lazy { BottomSheetBehavior.from(bottom_sheet) }
+
 
     /**
      * System Callbacks
@@ -38,8 +38,6 @@ class MainActivity : BaseActivity(), PlayerListener {
         initPlayer()
         initBottomSheet()
 
-        bottomNavigationView.selectedItemId = R.id.action_home
-
     }
 
 
@@ -47,63 +45,51 @@ class MainActivity : BaseActivity(), PlayerListener {
     /**
      * Private Functions
      */
-
-
     private fun initView() {
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+            if (item.itemId == currentView)
+                return@setOnNavigationItemSelectedListener true
+
             when (item.itemId) {
                 R.id.action_home -> {
-                    if (currentView != R.id.action_home) {
-                        replaceFragment(HomeFragment.newInstance())
-                        currentView = R.id.action_home
-                    }
+                    replaceFragment(HomeFragment.newInstance())
                 }
                 R.id.action_discover -> {
-                    if (currentView != R.id.action_discover) {
-                        replaceFragment(DiscoverFragment.newInstance())
-                        currentView = R.id.action_discover
-                    }
+                    replaceFragment(DiscoverFragment.newInstance())
                 }
                 R.id.action_search -> {
-                    if (currentView != R.id.action_search) {
-                        replaceFragment(SearchFragment.newInstance())
-                        currentView = R.id.action_search
-                    }
+                    replaceFragment(SearchFragment.newInstance())
                 }
             }
+
+            currentView = item.itemId
             true
         }
-    }
 
-    private fun replaceFragment(fragment: Fragment, tag: String = "", addToBackStack: Boolean = false) {
-
-        val ft = supportFragmentManager.beginTransaction()
-        if (addToBackStack)
-            ft.addToBackStack(tag)
-
-        ft.replace(R.id.contentFrame, fragment, tag)
-        ft.commit()
+        bottomNavigationView.selectedItemId = R.id.action_home
     }
 
     private fun initBottomSheet() {
 
         bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-
+                // Offset == 1 when expanded, == 0 when collapsed
+                val alpha = Math.abs(slideOffset - 1.0)
+                collapsedLayout.alpha = alpha.toFloat()
             }
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when(newState) {
                     STATE_EXPANDED -> {
-                        collapsedLayout.visibility = View.GONE
+                        collapsedLayout.alpha = 0F
+                        collapsedLayout.gone()
                     }
                     STATE_COLLAPSED -> {
-                        collapsedLayout.visibility = View.VISIBLE
+                        collapsedLayout.alpha = 1F
                     }
                     STATE_DRAGGING -> {
-                        if (collapsedLayout.visibility == View.VISIBLE) {
-                            collapsedLayout.visibility = View.GONE
-                        }
+                        if (!collapsedLayout.isVisible())
+                            collapsedLayout.visible()
                     }
                 }
             }
@@ -151,26 +137,30 @@ class MainActivity : BaseActivity(), PlayerListener {
     private fun togglePlay() {
         if (mPlayer?.playbackState?.isPlaying == true) {
             pause()
-            playPauseBtn.setImageDrawable(resources.getDrawable(R.drawable.ic_play))
-            playPauseExpanded.setImageDrawable(resources.getDrawable(R.drawable.ic_play))
+            playPauseBtn.setImageDrawable(drawable(R.drawable.ic_play))
+            playPauseExpanded.setImageDrawable(drawable(R.drawable.ic_play))
         } else {
             resume()
-            playPauseBtn.setImageDrawable(resources.getDrawable(R.drawable.ic_pause))
-            playPauseExpanded.setImageDrawable(resources.getDrawable(R.drawable.ic_pause))
+            playPauseBtn.setImageDrawable(drawable(R.drawable.ic_pause))
+            playPauseExpanded.setImageDrawable(drawable(R.drawable.ic_pause))
         }
     }
 
     private fun resume() {
-        mPlayer?.resume(object : Player.OperationCallback {
-            override fun onSuccess() {
-
-            }
-
-            override fun onError(p0: Error?) {
-
-            }
-        })
+        mPlayer?.resume {}
     }
+
+    private fun replaceFragment(fragment: Fragment, tag: String = "", addToBackStack: Boolean = false) {
+
+        val ft = supportFragmentManager.beginTransaction()
+        if (addToBackStack)
+            ft.addToBackStack(tag)
+
+        ft.replace(R.id.contentFrame, fragment, tag)
+        ft.commit()
+    }
+
+
 
 
     /**
@@ -185,21 +175,11 @@ class MainActivity : BaseActivity(), PlayerListener {
             }
         }, track.uri, 0, 0)
 
-        if (bottom_sheet.visibility == View.GONE)
-            bottom_sheet.visibility = View.VISIBLE
-
         setBottomSheetTrack(track)
     }
 
     override fun pause() {
-        mPlayer?.pause(object : Player.OperationCallback {
-            override fun onSuccess() {
-
-            }
-            override fun onError(p0: Error?) {
-
-            }
-        })
+        mPlayer?.pause { }
     }
 
 

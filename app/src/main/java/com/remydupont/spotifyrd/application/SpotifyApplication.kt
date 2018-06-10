@@ -20,4 +20,6 @@ class SpotifyApplication: Application() {
     fun getContext(): SpotifyApplication {
         return instance
     }
+
+
 }

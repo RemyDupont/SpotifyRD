@@ -39,8 +39,6 @@ class LoginActivity : AppCompatActivity(){
             if (response.type == AuthenticationResponse.Type.TOKEN) {
                 SharedPrefHelper.getInstance().storeSpotifyToken(response.accessToken)
                 Toast.makeText(this, "Log In :)", Toast.LENGTH_LONG).show()
-                Log.d("SpotifyLogin",
-                        "code: ${response.code}, error: ${response.error},expirein: ${response.expiresIn}, state: ${response.state}, type: ${response.type}")
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             }
