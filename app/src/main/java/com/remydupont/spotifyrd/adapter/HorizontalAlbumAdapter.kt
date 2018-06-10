@@ -16,7 +16,10 @@ import com.squareup.picasso.Picasso
  *
  * Created by remydupont on 09/06/2018.
  */
-class HorizontalAlbumAdapter(var items: List<Album>): RecyclerView.Adapter<HorizontalAlbumAdapter.AlbumViewHolder>() {
+class HorizontalAlbumAdapter(
+        var items: List<Album>,
+        var listener: AlbumListener
+): RecyclerView.Adapter<HorizontalAlbumAdapter.AlbumViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumViewHolder {
@@ -58,6 +61,18 @@ class HorizontalAlbumAdapter(var items: List<Album>): RecyclerView.Adapter<Horiz
                             .into(albumImage)
                 }
             }
+
+            itemView.setOnClickListener {
+                listener.onItemSelected(albumItem)
+            }
         }
+    }
+
+
+    /**
+     * Interface
+     */
+    interface AlbumListener {
+        fun onItemSelected(album: Album)
     }
 }

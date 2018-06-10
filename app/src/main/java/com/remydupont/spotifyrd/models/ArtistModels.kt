@@ -1,5 +1,6 @@
 package com.remydupont.spotifyrd.models
 
+
 /**
  * ArtistModels
  *

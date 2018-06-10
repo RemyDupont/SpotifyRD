@@ -27,9 +27,11 @@ data class Album(
         var href: String? = null,
         var id: String? = null,
         var images: List<Image>? = null,
+        var label: String? = null,
         var name: String? = null,
         var release_date: String? = null,
         var release_date_precision: String? = null,
+        var tracks: TrackResponse? = null,
         var type: String? = null,
         var uri: String? = null
 ): ViewType {

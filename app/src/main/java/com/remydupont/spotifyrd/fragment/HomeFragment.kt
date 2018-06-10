@@ -1,17 +1,21 @@
 package com.remydupont.spotifyrd.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.remydupont.spotifyrd.R
+import com.remydupont.spotifyrd.activity.AlbumActivity
 import com.remydupont.spotifyrd.adapter.HorizontalAlbumAdapter
 import com.remydupont.spotifyrd.adapter.HorizontalFeaturedAdapter
 import com.remydupont.spotifyrd.extension.fetch
 import com.remydupont.spotifyrd.extension.inflate
+import com.remydupont.spotifyrd.helper.Constants
 import com.remydupont.spotifyrd.listener.PlayerListener
+import com.remydupont.spotifyrd.models.Album
 import com.remydupont.spotifyrd.models.Track
 import com.remydupont.spotifyrd.network.NetworkManager
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -21,7 +25,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
  *
  * Created by remydupont on 09/06/2018.
  */
-class HomeFragment: BaseFragment() {
+class HomeFragment: BaseFragment(), HorizontalAlbumAdapter.AlbumListener {
 
     private var playerListener: PlayerListener? = null
     private var track: Track? = null
@@ -70,10 +74,6 @@ class HomeFragment: BaseFragment() {
                 playerListener?.playTrack(it)
             }
         }
-
-        stop_btn.setOnClickListener {
-            playerListener?.pause()
-        }
     }
 
     private fun executeAPICalls() {
@@ -89,7 +89,7 @@ class HomeFragment: BaseFragment() {
                 response?.body()?.albums?.items?.let {
                     newReleasesRecyclerView.apply {
                         layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                        adapter = HorizontalAlbumAdapter(it)
+                        adapter = HorizontalAlbumAdapter(it, this@HomeFragment)
                     }
                 }
             }
@@ -108,5 +108,12 @@ class HomeFragment: BaseFragment() {
         }
     }
 
+
+    override fun onItemSelected(album: Album) {
+        val intent = Intent(activity, AlbumActivity::class.java).apply {
+            putExtra(Constants.ARG_ALBUM_ID, album.id)
+        }
+        startActivity(intent)
+    }
 }
 

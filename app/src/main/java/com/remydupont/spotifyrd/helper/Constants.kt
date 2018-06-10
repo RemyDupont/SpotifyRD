@@ -13,4 +13,6 @@ object Constants {
     const val SEARCH_ARG_PLAYLIST = "playlist"
     const val SEARCH_ARG_TRACK = "track"
     const val SEARCH_ARG_DEFAULT = "artist,album,playlist,track"
+
+    const val ARG_ALBUM_ID = "argAlbumUri"
 }

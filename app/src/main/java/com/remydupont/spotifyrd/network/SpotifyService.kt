@@ -31,4 +31,7 @@ interface SpotifyService {
             @Query("limit") limit: Int = 3
     ): Call<SearchResponse>
 
+    @GET("v1/albums/{id}")
+    fun getAlbum(@Path("id") id: String): Call<Album>
+
 }

@@ -6,6 +6,16 @@ package com.remydupont.spotifyrd.models
  * Created by remydupont on 09/06/2018.
  */
 
+data class TrackResponse(
+        var href: String? = null,
+        var items: List<Track>? = null,
+        var limit: Int? = null,
+        var next: String? = null,
+        var offset: Int? = null,
+        var previous: String? = null,
+        var total: Int? = null
+)
+
 data class Track(
         var album: Album? = null,
         var artists: List<Artist>? = null,
