@@ -13,6 +13,7 @@ import com.remydupont.spotifyrd.adapter.HorizontalAlbumAdapter
 import com.remydupont.spotifyrd.adapter.HorizontalFeaturedAdapter
 import com.remydupont.spotifyrd.extension.fetch
 import com.remydupont.spotifyrd.extension.inflate
+import com.remydupont.spotifyrd.extension.string
 import com.remydupont.spotifyrd.helper.Constants
 import com.remydupont.spotifyrd.listener.PlayerListener
 import com.remydupont.spotifyrd.models.Album
@@ -45,8 +46,7 @@ class HomeFragment: BaseFragment(), HorizontalAlbumAdapter.AlbumListener {
         if (context is PlayerListener) {
             playerListener = context
         } else {
-            throw ClassCastException(context.toString()
-                    + " must implement OnFragmentInteractionListener")
+            throw ClassCastException(context.toString() + " must implement OnFragmentInteractionListener")
         }
     }
 
@@ -98,7 +98,7 @@ class HomeFragment: BaseFragment(), HorizontalAlbumAdapter.AlbumListener {
         NetworkManager.instance?.service?.getFeatured()?.fetch {
             onResponse { _, response ->
                 response?.body()?.playlists?.items?.let {
-                    featuredPlaylistsTitle.text = response.body()?.message ?: "Featured Playlists"
+                    featuredPlaylistsTitle.text = response.body()?.message ?: string(R.string.featured_playlists)
                     featuredRecyclerView.apply {
                         layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
                         adapter = HorizontalFeaturedAdapter(it)

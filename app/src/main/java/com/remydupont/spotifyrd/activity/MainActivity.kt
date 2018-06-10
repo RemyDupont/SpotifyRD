@@ -116,8 +116,8 @@ class MainActivity : BaseActivity(), PlayerListener {
         songTitleCollapsed.text = track.name
         songTitleExpanded.text = track.name
 
-        artistTextView.text = track.artists?.get(0)?.name ?: "Artist"
-        albumTextView.text = track.album?.name ?: "Album"
+        artistTextView.text = track.artists?.get(0)?.name ?: string(R.string.artist)
+        albumTextView.text = track.album?.name ?: string(R.string.album)
 
         track.album?.images?.let {
             if (it.isNotEmpty()) {

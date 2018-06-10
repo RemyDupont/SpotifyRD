@@ -10,7 +10,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:text="Categories"
+        android:text="@string/categories"
         android:textColor="@color/colorPrimary"
         android:textSize="18sp"
         android:gravity="center"

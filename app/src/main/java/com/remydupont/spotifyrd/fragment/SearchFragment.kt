@@ -11,6 +11,7 @@ import com.remydupont.spotifyrd.R
 import com.remydupont.spotifyrd.adapter.SearchAdapter
 import com.remydupont.spotifyrd.extension.fetch
 import com.remydupont.spotifyrd.extension.inflate
+import com.remydupont.spotifyrd.extension.string
 import com.remydupont.spotifyrd.extension.textWatcher
 import com.remydupont.spotifyrd.models.HeaderItem
 import com.remydupont.spotifyrd.models.SearchResponse
@@ -84,27 +85,27 @@ class SearchFragment: BaseFragment() {
 
         searchResponse.artists?.items?.let {
             if (it.isNotEmpty()) {
-                data.add(HeaderItem("Artists"))
+                data.add(HeaderItem(string(R.string.artists)))
                 data.addAll(it)
             }
         }
 
         searchResponse.albums?.items?.let {
             if (it.isNotEmpty()) {
-                data.add(HeaderItem("Albums"))
+                data.add(HeaderItem(string(R.string.albums)))
                 data.addAll(it)
             }
         }
 
         searchResponse.playLists?.items?.let {
             if (it.isNotEmpty()) {
-                data.add(HeaderItem("Artists"))
+                data.add(HeaderItem(string(R.string.playlitsts)))
                 data.addAll(it)
             }
         }
 
-        if (adapter == null) {
-            adapter = SearchAdapter(data)
+        if (adapter == null && activity != null) {
+            adapter = SearchAdapter(activity!!, data)
             searchRecyclerVIew.adapter = adapter
         } else {
             adapter?.updateItems(data)

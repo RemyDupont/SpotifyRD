@@ -61,7 +61,7 @@ open class BaseActivity: AppCompatActivity(), Player.NotificationCallback, Conne
     }
 
     override fun onLoginFailed(error: Error?) {
-        longToast("Session Expired")
+        longToast(R.string.session_expired)
         startActivity(Intent(this, com.remydupont.spotifyrd.activity.LoginActivity::class.java))
         finish()
     }
@@ -73,19 +73,11 @@ open class BaseActivity: AppCompatActivity(), Player.NotificationCallback, Conne
 
     override fun onPlaybackError(error: Error?) {
         Log.d("MainActivity", "Playback error received: " + error?.name)
-        when (error) {
-        // Handle error type as necessary
-            else -> {
-            }
-        }    }
+    }
 
     override fun onPlaybackEvent(playerEvent: PlayerEvent?) {
         Log.d("MainActivity", "Playback event received: " + playerEvent?.name)
-        when (playerEvent) {
-        // Handle event type as necessary
-            else -> {
-            }
-        }    }
+    }
 
 
 }

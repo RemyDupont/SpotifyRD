@@ -1,5 +1,6 @@
 package com.remydupont.spotifyrd.adapter
 
+import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
@@ -7,19 +8,23 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.remydupont.spotifyrd.R
 import com.remydupont.spotifyrd.extension.inflate
+import com.remydupont.spotifyrd.extension.string
 import com.remydupont.spotifyrd.models.*
 import com.remydupont.spotifyrd.models.ViewTypeConstants.TYPE_ALBUM
 import com.remydupont.spotifyrd.models.ViewTypeConstants.TYPE_ARTIST
 import com.remydupont.spotifyrd.models.ViewTypeConstants.TYPE_HEADER
 import com.remydupont.spotifyrd.models.ViewTypeConstants.TYPE_PLAYLIST
 import com.squareup.picasso.Picasso
+import java.util.*
 
 /**
  *      SearchAdapter
  *
  * Created by remydupont on 09/06/2018.
  */
-class SearchAdapter(data: List<ViewType>
+class SearchAdapter(
+        var context: Context,
+        data: List<ViewType>
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var items: List<ViewType> = data
@@ -81,8 +86,8 @@ class SearchAdapter(data: List<ViewType>
 
         fun bind(artist: Artist) {
             artistName.text = artist.name
-            val fansNumber = artist.followers?.total ?: 0
-            artistFans.text = "$fansNumber followers"
+            val followers = artist.followers?.total ?: 0
+            artistFans.text = String.format(Locale.getDefault(), context.string(R.string.followersNb), followers)
 
             artist.images?.let {
                 if (it.isNotEmpty()) {

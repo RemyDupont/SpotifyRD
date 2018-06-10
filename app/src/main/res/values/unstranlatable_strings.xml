@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="tracks">
+        <item quantity="one">@string/plural_one_hour</item>
+        <item quantity="other">@string/plural_other_hour</item>
+    </plurals>
+</resources>

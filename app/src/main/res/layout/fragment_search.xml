@@ -20,7 +20,7 @@
         android:layout_height="56dp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:hint="Search for Music"
+        android:hint="@string/search_hint"
         android:imeOptions="normal|actionSearch"
         android:inputType="text"
         android:minLines="1"

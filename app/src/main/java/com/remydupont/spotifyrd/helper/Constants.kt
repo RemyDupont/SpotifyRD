@@ -15,4 +15,8 @@ object Constants {
     const val SEARCH_ARG_DEFAULT = "artist,album,playlist,track"
 
     const val ARG_ALBUM_ID = "argAlbumUri"
+
+    const val SPOTIFY_PERMISSION_USER_READ_PRIVATE = "user-read-private"
+    const val SPOTIFY_PERMISSION_STREAMING = "streaming"
+
 }

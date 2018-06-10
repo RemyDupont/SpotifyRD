@@ -30,7 +30,7 @@
                 android:padding="24dp"
                 android:layout_gravity="center"
                 android:background="@drawable/bg_red_stroke_corner_radius"
-                android:text="Play song sample"
+                android:text="@string/home_play_default_track"
                 android:textColor="@color/colorPrimary"
                 android:textSize="18sp"
                 tools:layout_editor_absoluteY="481dp"/>
@@ -41,25 +41,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
-                android:text="New Releases"
+                android:text="@string/home_new_releases"
                 android:textColor="@color/colorPrimary"
                 android:textSize="18sp"/>
+
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/newReleasesRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:scrollbars="none"
-                tools:listitem="@layout/item_dashboard_album">
-            </android.support.v7.widget.RecyclerView>
+                tools:listitem="@layout/item_dashboard_album" />
+
+
             <TextView
                 android:id="@+id/featuredPlaylistsTitle"
                 android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
-                android:text="Featured Playlists"
+                android:text="@string/featured_playlists"
                 android:textColor="@color/colorPrimary"
                 android:textSize="18sp"/>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/featuredRecyclerView"
                 android:layout_width="match_parent"

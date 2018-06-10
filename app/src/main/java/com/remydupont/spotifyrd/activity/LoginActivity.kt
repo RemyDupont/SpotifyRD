@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.remydupont.spotifyrd.R
+import com.remydupont.spotifyrd.extension.string
+import com.remydupont.spotifyrd.helper.Constants
 import com.remydupont.spotifyrd.helper.SharedPrefHelper
 import com.spotify.sdk.android.authentication.*
 import com.spotify.sdk.android.authentication.LoginActivity
@@ -36,7 +38,7 @@ class LoginActivity : AppCompatActivity(){
             val response = AuthenticationClient.getResponse(resultCode, intent)
             if (response.type == AuthenticationResponse.Type.TOKEN) {
                 SharedPrefHelper.instance.storeSpotifyToken(response.accessToken)
-                Toast.makeText(this, "Log In :)", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, string(R.string.logged_in), Toast.LENGTH_LONG).show()
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             }
@@ -47,7 +49,7 @@ class LoginActivity : AppCompatActivity(){
         login_button.setOnClickListener {
             val builder = AuthenticationRequest
                     .Builder(getString(R.string.client_id), AuthenticationResponse.Type.TOKEN, getString(R.string.redirect_uri))
-            builder.setScopes(arrayOf("user-read-private", "streaming"))
+            builder.setScopes(arrayOf(Constants.SPOTIFY_PERMISSION_USER_READ_PRIVATE, Constants.SPOTIFY_PERMISSION_STREAMING))
             val request = builder.build()
 
             AuthenticationClient.openLoginActivity(this, LoginActivity.REQUEST_CODE, request)

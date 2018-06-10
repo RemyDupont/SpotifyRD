@@ -2,4 +2,61 @@
     <string name="app_name">SpotifyRD</string>
     <string name="title_activity_album">AlbumActivity</string>
     <string name="action_settings">Settings</string>
+
+
+    <!-- Login Screen -->
+    <string name="login_app_name">Spotify Sample</string>
+    <string name="login_log_with_spotify">Login with Spotify</string>
+    <string name="login_premium_account">You need a premium account</string>
+    <string name="logged_in">Log In :)</string>
+    <string name="session_expired">Session Expired</string>
+
+
+    <string name="menu_home">Home</string>
+    <string name="menu_discover">Discover</string>
+    <string name="menu_search">Search</string>
+
+
+    <!-- Main Activity -->
+    <string name="bottom_sheet_track_title">Track title</string>
+    <string name="bottom_sheet_default_timer">0:00</string>
+
+
+    <!-- Home Fragment -->
+    <string name="home_play_default_track">Play song sample</string>
+    <string name="home_new_releases">New Releases</string>
+
+
+    <!-- Search Fragment -->
+    <string name="search_hint">Search for Music</string>
+
+
+    <!-- Common strings -->
+    <string name="artist">Artist</string>
+    <string name="album">Album</string>
+    <string name="artists">Artists</string>
+    <string name="albums">Albums</string>
+    <string name="playlitsts">Playlists</string>
+    <string name="categories">Categories</string>
+    <string name="featured_playlists">Featured Playlists</string>
+
+    <string name="followersNb">%d followers</string>
+
+    <string name="one_track">%d track</string>
+    <string name="plural_track">%d tracks</string>
+
+    <string name="add_to_favorites">Add to favorites</string>
+    <string name="remove_from_favorites">Remove FRom Favorites</string>
+
+
+    <!-- Accessibility for Images content description-->
+    <string name="collapse">Collapse</string>
+    <string name="expand">Expand</string>
+    <string name="album_image">Album image</string>
+    <string name="artist_image">Artist image</string>
+    <string name="play_pause">Play pause</string>
+    <string name="next_track">Next track</string>
+    <string name="previous_track">Previous track</string>
+    <string name="favorites">Add or remove to favorites</string>
+
 </resources>

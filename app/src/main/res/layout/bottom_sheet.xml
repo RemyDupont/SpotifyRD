@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorSecondary"
@@ -17,7 +16,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
-        android:text="Song title"
+        android:text="@string/bottom_sheet_track_title"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:visibility="visible"
@@ -37,7 +36,8 @@
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_collapse"/>
+        app:srcCompat="@drawable/ic_collapse"
+        android:contentDescription="@string/collapse"/>
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
@@ -61,7 +61,8 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline"
-        app:srcCompat="@drawable/ic_audiotrack"/>
+        app:srcCompat="@drawable/ic_audiotrack"
+        android:contentDescription="@string/album_image"/>
 
     <ImageView
         android:id="@+id/nextExpanded"
@@ -73,7 +74,9 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/playPauseExpanded"
         app:layout_constraintTop_toTopOf="@+id/playPauseExpanded"
-        app:srcCompat="@drawable/ic_next"/>
+        app:srcCompat="@drawable/ic_next"
+        android:contentDescription="@string/next_track"/>
+
     <ImageView
         android:id="@+id/previousExpanded"
         android:layout_width="56dp"
@@ -85,7 +88,9 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/playPauseExpanded"
-        app:srcCompat="@drawable/ic_previous"/>
+        app:srcCompat="@drawable/ic_previous"
+        android:contentDescription="@string/previous_track"/>
+
     <ImageView
         android:id="@+id/playPauseExpanded"
         android:layout_width="56dp"
@@ -95,7 +100,8 @@
         app:layout_constraintEnd_toStartOf="@+id/nextExpanded"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/previousExpanded"
-        app:srcCompat="@drawable/ic_pause_white"/>
+        app:srcCompat="@drawable/ic_pause_white"
+        android:contentDescription="@string/play_pause"/>
 
     <View
         android:id="@+id/separator"
@@ -115,7 +121,7 @@
         android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Artist"
+        android:text="@string/artist"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/albumTextView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -130,7 +136,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Album"
+        android:text="@string/album"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/separator"
         app:layout_constraintEnd_toEndOf="parent"
@@ -159,7 +165,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:gravity="center"
-        android:text="0:00"
+        android:text="@string/bottom_sheet_default_timer"
         app:layout_constraintBottom_toBottomOf="@+id/progressBar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/progressBar"/>
@@ -171,10 +177,10 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:gravity="center"
+        android:text="@string/bottom_sheet_default_timer"
         app:layout_constraintBottom_toBottomOf="@+id/progressBar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/progressBar"
-        tools:text="3:00"/>
+        app:layout_constraintTop_toTopOf="@+id/progressBar"/>
 
 
     <android.support.constraint.ConstraintLayout
@@ -192,7 +198,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="Song title"
+            android:text="@string/bottom_sheet_track_title"
             android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/collapsedLayout"
@@ -211,7 +217,8 @@
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_audiotrack"/>
+            app:srcCompat="@drawable/ic_audiotrack"
+            android:contentDescription="@string/album_image"/>
 
         <ImageView
             android:id="@+id/previousBtn"
@@ -226,7 +233,8 @@
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toEndOf="@+id/songTitleCollapsed"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_previous"/>
+            app:srcCompat="@drawable/ic_previous"
+            android:contentDescription="@string/previous_track"/>
 
         <ImageView
             android:id="@+id/nextBtn"
@@ -242,7 +250,8 @@
             app:layout_constraintStart_toEndOf="@+id/playPauseBtn"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/ic_next"/>
+            app:srcCompat="@drawable/ic_next"
+            android:contentDescription="@string/next_track"/>
 
         <ImageView
             android:id="@+id/playPauseBtn"
@@ -258,7 +267,8 @@
             app:layout_constraintStart_toEndOf="@+id/previousBtn"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/ic_pause_white"/>
+            app:srcCompat="@drawable/ic_pause_white"
+            android:contentDescription="@string/play_pause"/>
 
         <ImageView
             android:id="@+id/expandBtn"
@@ -271,7 +281,8 @@
             app:layout_constraintDimensionRatio="h,1:1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_expand"/>
+            app:srcCompat="@drawable/ic_expand"
+            android:contentDescription="@string/expand"/>
 
     </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>

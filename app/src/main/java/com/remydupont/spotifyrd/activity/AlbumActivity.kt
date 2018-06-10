@@ -9,6 +9,7 @@ import com.remydupont.spotifyrd.R
 import com.remydupont.spotifyrd.adapter.TracksAdapter
 import com.remydupont.spotifyrd.extension.drawable
 import com.remydupont.spotifyrd.extension.fetch
+import com.remydupont.spotifyrd.extension.string
 import com.remydupont.spotifyrd.helper.Constants
 import com.remydupont.spotifyrd.models.Album
 import com.remydupont.spotifyrd.models.Track
@@ -56,12 +57,12 @@ class AlbumActivity : BaseActivity(), TracksAdapter.TrackListListener {
         menu?.clear()
 
         var action = ACTION_ADD_FAVORITE
-        var title = "Add To Favorites"
+        var title = string(R.string.add_to_favorites)
         var iconResourceId = R.drawable.ic_favorite_empty_white
 
         if (isFavorite) {
             action = ACTION_REMOVE_FAVORITE
-            title = "Remove FRom Favorites"
+            title = string(R.string.remove_from_favorites)
             iconResourceId = R.drawable.ic_favorite_white
         }
 
@@ -99,7 +100,7 @@ class AlbumActivity : BaseActivity(), TracksAdapter.TrackListListener {
     private fun initView(album: Album) {
 
         albumTitle.text = String.format(Locale.getDefault(), "%s - %s", album.artists!![0].name, album.name)
-        albumTrackNumber.text = String.format(Locale.getDefault(), "%d tracks", album.tracks?.total)
+        albumTrackNumber.text = resources.getQuantityString(R.plurals.tracks, album.tracks?.total ?: 0)
 
         album.images?.let {
             if (it.isNotEmpty()) {
