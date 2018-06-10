@@ -8,7 +8,6 @@ import android.widget.TextView
 import com.remydupont.spotifyrd.R
 import com.remydupont.spotifyrd.extension.inflate
 import com.remydupont.spotifyrd.models.Category
-import com.remydupont.spotifyrd.models.FeaturedItem
 import com.squareup.picasso.Picasso
 
 /**

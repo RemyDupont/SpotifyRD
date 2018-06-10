@@ -11,7 +11,7 @@ data class AlbumResponse(
 
 data class Albums(
         var href: String? = null,
-        var items: List<AlbumItem>? = null,
+        var items: List<Album>? = null,
         var limit: Int? = null,
         var next: String? = null,
         var offset: Int? = null,
@@ -19,7 +19,7 @@ data class Albums(
         var total: Int? = null
 )
 
-data class AlbumItem(
+data class Album(
         var album_type: String? = null,
         var artists: List<Artist>? = null,
         var available_markets: List<String>? = null,
@@ -32,4 +32,8 @@ data class AlbumItem(
         var release_date_precision: String? = null,
         var type: String? = null,
         var uri: String? = null
-)
+): ViewType {
+    override fun getViewType(): Int {
+        return ViewTypeConstants.TYPE_ALBUM
+    }
+}

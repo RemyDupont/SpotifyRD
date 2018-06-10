@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.remydupont.spotifyrd.R
 import com.remydupont.spotifyrd.extension.inflate
-import com.remydupont.spotifyrd.models.FeaturedItem
+import com.remydupont.spotifyrd.models.PlayList
 import com.squareup.picasso.Picasso
 
 /**
@@ -15,7 +15,7 @@ import com.squareup.picasso.Picasso
  *
  * Created by remydupont on 09/06/2018.
  */
-class HorizontalFeaturedAdapter(var items: List<FeaturedItem>): RecyclerView.Adapter<HorizontalFeaturedAdapter.FeaturedViewHolder>() {
+class HorizontalFeaturedAdapter(var items: List<PlayList>): RecyclerView.Adapter<HorizontalFeaturedAdapter.FeaturedViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeaturedViewHolder {
@@ -38,7 +38,7 @@ class HorizontalFeaturedAdapter(var items: List<FeaturedItem>): RecyclerView.Ada
         private var playlistImage: ImageView = itemView.findViewById(R.id.playlistCover)
         private var playlistName: TextView = itemView.findViewById(R.id.playlistName)
 
-        fun bind(featuredItem: FeaturedItem) {
+        fun bind(featuredItem: PlayList) {
             playlistName.text = featuredItem.name
 
             featuredItem.images?.let {

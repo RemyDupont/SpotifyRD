@@ -7,7 +7,7 @@ package com.remydupont.spotifyrd.models
  */
 
 data class Track(
-        var album: AlbumItem? = null,
+        var album: Album? = null,
         var artists: List<Artist>? = null,
         var available_markets: List<String>? = null,
         var disc_number: Int? = null,
@@ -24,4 +24,8 @@ data class Track(
         var track_number: Int? = null,
         var type: String? = null,
         var uri: String? = null
-)
+): ViewType {
+    override fun getViewType(): Int {
+        return ViewTypeConstants.TYPE_TRACK
+    }
+}

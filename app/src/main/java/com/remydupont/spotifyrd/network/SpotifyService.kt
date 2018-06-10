@@ -1,9 +1,6 @@
 package com.remydupont.spotifyrd.network
 
-import com.remydupont.spotifyrd.models.AlbumResponse
-import com.remydupont.spotifyrd.models.CategoriesResponse
-import com.remydupont.spotifyrd.models.FeaturedPlayListsResponse
-import com.remydupont.spotifyrd.models.Track
+import com.remydupont.spotifyrd.models.*
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -26,5 +23,12 @@ interface SpotifyService {
 
     @GET("v1/browse/categories")
     fun getCategories(): Call<CategoriesResponse>
+
+    @GET("v1/search")
+    fun search(
+            @Query("q") query: String,
+            @Query("type") type: String,
+            @Query("limit") limit: Int
+    ): Call<SearchResponse>
 
 }

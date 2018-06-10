@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.remydupont.spotifyrd.R
 import com.remydupont.spotifyrd.extension.inflate
-import com.remydupont.spotifyrd.models.AlbumItem
+import com.remydupont.spotifyrd.models.Album
 import com.squareup.picasso.Picasso
 
 /**
@@ -15,7 +15,7 @@ import com.squareup.picasso.Picasso
  *
  * Created by remydupont on 09/06/2018.
  */
-class HorizontalAlbumAdapter(var items: List<AlbumItem>): RecyclerView.Adapter<HorizontalAlbumAdapter.AlbumViewHolder>() {
+class HorizontalAlbumAdapter(var items: List<Album>): RecyclerView.Adapter<HorizontalAlbumAdapter.AlbumViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumViewHolder {
@@ -39,7 +39,7 @@ class HorizontalAlbumAdapter(var items: List<AlbumItem>): RecyclerView.Adapter<H
         private var artist: TextView = itemView.findViewById(R.id.albumArtist)
         private var albumName: TextView = itemView.findViewById(R.id.albumName)
 
-        fun bind(albumItem: AlbumItem) {
+        fun bind(albumItem: Album) {
             albumItem.artists?.let {
                 artist.text = it[0].name ?: ""
             }

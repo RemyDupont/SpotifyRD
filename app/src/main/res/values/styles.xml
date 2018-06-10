@@ -10,4 +10,11 @@
     </style>
 
 
+    <style name="AppTheme.EditText" parent="Widget.AppCompat.EditText">
+        <item name="android:editTextColor">@color/colorSecondary</item>
+        <item name="android:textColorHint">@color/colorSecondaryLight</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
+
 </resources>
