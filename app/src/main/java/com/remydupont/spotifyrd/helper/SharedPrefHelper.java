@@ -3,7 +3,6 @@ package com.remydupont.spotifyrd.helper;
 import android.content.Context;
 import android.content.SharedPreferences;
 import com.remydupont.spotifyrd.application.SpotifyApplication;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

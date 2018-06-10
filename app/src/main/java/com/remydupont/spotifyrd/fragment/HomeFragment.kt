@@ -6,21 +6,15 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.remydupont.spotifyrd.adapter.HorizontalAlbumAdapter
-import com.remydupont.spotifyrd.listener.PlayerListener
 import com.remydupont.spotifyrd.R
+import com.remydupont.spotifyrd.adapter.HorizontalAlbumAdapter
 import com.remydupont.spotifyrd.adapter.HorizontalFeaturedAdapter
 import com.remydupont.spotifyrd.extension.fetch
 import com.remydupont.spotifyrd.extension.inflate
-import com.remydupont.spotifyrd.extension.longToast
-import com.remydupont.spotifyrd.models.AlbumResponse
-import com.remydupont.spotifyrd.models.FeaturedPlayListsResponse
+import com.remydupont.spotifyrd.listener.PlayerListener
 import com.remydupont.spotifyrd.models.Track
 import com.remydupont.spotifyrd.network.NetworkManager
 import kotlinx.android.synthetic.main.fragment_home.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 /**
  * HomeFragment

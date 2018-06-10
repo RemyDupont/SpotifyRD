@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import com.remydupont.spotifyrd.R
 import com.remydupont.spotifyrd.adapter.SearchAdapter
 import com.remydupont.spotifyrd.extension.fetch
@@ -17,9 +18,6 @@ import com.remydupont.spotifyrd.models.ViewType
 import com.remydupont.spotifyrd.network.NetworkManager
 import kotlinx.android.synthetic.main.fragment_search.*
 import java.net.URLEncoder
-import android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT
-import android.content.Context.INPUT_METHOD_SERVICE
-import android.view.inputmethod.InputMethodManager
 
 
 /**
@@ -73,7 +71,7 @@ class SearchFragment: BaseFragment() {
 
         searchView.clearFocus()
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager?
-        imm?.hideSoftInputFromWindow(searchView.windowToken, 0);
+        imm?.hideSoftInputFromWindow(searchView.windowToken, 0)
         super.onPause()
     }
 

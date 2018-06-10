@@ -3,16 +3,10 @@ package com.remydupont.spotifyrd.activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.widget.Toast
 import com.remydupont.spotifyrd.R
 import com.remydupont.spotifyrd.extension.longToast
 import com.remydupont.spotifyrd.helper.SharedPrefHelper
 import com.spotify.sdk.android.player.*
-import com.spotify.sdk.android.authentication.LoginActivity.REQUEST_CODE
-import com.spotify.sdk.android.authentication.AuthenticationClient
-import com.spotify.sdk.android.authentication.AuthenticationResponse
-import com.spotify.sdk.android.authentication.AuthenticationRequest
-import com.spotify.sdk.android.authentication.LoginActivity
 
 
 /**

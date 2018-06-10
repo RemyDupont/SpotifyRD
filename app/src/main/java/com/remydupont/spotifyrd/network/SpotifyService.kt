@@ -2,7 +2,6 @@ package com.remydupont.spotifyrd.network
 
 import com.remydupont.spotifyrd.helper.Constants
 import com.remydupont.spotifyrd.models.*
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
 
