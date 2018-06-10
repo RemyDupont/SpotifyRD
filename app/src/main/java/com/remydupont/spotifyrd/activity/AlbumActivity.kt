@@ -100,7 +100,7 @@ class AlbumActivity : BaseActivity(), TracksAdapter.TrackListListener {
     private fun initView(album: Album) {
 
         albumTitle.text = String.format(Locale.getDefault(), "%s - %s", album.artists!![0].name, album.name)
-        albumTrackNumber.text = resources.getQuantityString(R.plurals.tracks, album.tracks?.total ?: 0)
+        albumTrackNumber.text = resources.getQuantityString(R.plurals.tracks, album.tracks?.total ?: 1)
 
         album.images?.let {
             if (it.isNotEmpty()) {

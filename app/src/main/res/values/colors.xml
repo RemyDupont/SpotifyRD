@@ -11,7 +11,7 @@
 
     <color name="colorAccent">@color/colorPrimary</color>
 
-    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorBackground">#ffffff</color>
 
     <color name="white">#ffffff</color>
     <color name="light_gray">#cccccc</color>
