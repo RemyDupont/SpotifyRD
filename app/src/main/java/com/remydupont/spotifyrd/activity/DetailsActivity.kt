@@ -2,16 +2,18 @@ package com.remydupont.spotifyrd.activity
 
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import com.remydupont.spotifyrd.R
+import com.remydupont.spotifyrd.adapter.PlaylistAdapter
 import com.remydupont.spotifyrd.adapter.TracksAdapter
-import com.remydupont.spotifyrd.extension.drawable
-import com.remydupont.spotifyrd.extension.fetch
-import com.remydupont.spotifyrd.extension.string
+import com.remydupont.spotifyrd.extension.*
 import com.remydupont.spotifyrd.helper.Constants
 import com.remydupont.spotifyrd.models.Album
+import com.remydupont.spotifyrd.models.PlayList
+import com.remydupont.spotifyrd.models.PlaylistResponse
 import com.remydupont.spotifyrd.models.Track
 import com.remydupont.spotifyrd.network.NetworkManager
 import com.squareup.picasso.Picasso
@@ -20,7 +22,9 @@ import kotlinx.android.synthetic.main.content_album.*
 import java.util.*
 
 
-class AlbumActivity : BaseActivity(), TracksAdapter.TrackListListener {
+class DetailsActivity : BaseActivity(),
+        TracksAdapter.TrackListListener,
+        PlaylistAdapter.PlaylistListener {
 
     private var isFavorite = false
     private var isPlaying = false
@@ -46,9 +50,17 @@ class AlbumActivity : BaseActivity(), TracksAdapter.TrackListListener {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 
-        val id = intent?.extras?.getString(Constants.ARG_ALBUM_ID, Constants.EMPTY_STRING) ?: Constants.EMPTY_STRING
-        if (id.isNotEmpty())
-            getAlbum(id)
+        val albumId = intent?.extras?.getString(Constants.ARG_ALBUM_ID, Constants.EMPTY_STRING) ?: Constants.EMPTY_STRING
+        if (albumId.isNotEmpty())
+            getAlbum(albumId)
+
+        val playListId = intent?.extras?.getString(Constants.ARG_PLAYLIST_ID, Constants.EMPTY_STRING) ?: Constants.EMPTY_STRING
+        if (playListId.isNotEmpty()) {
+            titleTV.text = playListId
+            subtitleTV.gone()
+            fab.gone()
+            getPlaylist(playListId)
+        }
 
     }
 
@@ -92,15 +104,25 @@ class AlbumActivity : BaseActivity(), TracksAdapter.TrackListListener {
     private fun getAlbum(id: String) {
         NetworkManager.instance?.service?.getAlbum(id)?.fetch {
             onResponse { _, response ->
-                response?.body()?.let { initView(it) }
+                response?.body()?.let { initView(album = it) }
+            }
+        }
+    }
+
+    private fun getPlaylist(id: String) {
+        NetworkManager.instance?.service?.getCategory(id)?.fetch {
+            onResponse { _, response ->
+                response?.body()?.playlists?.let {
+                    initView(playlistResponse = it)
+                }
             }
         }
     }
 
     private fun initView(album: Album) {
 
-        albumTitle.text = String.format(Locale.getDefault(), "%s - %s", album.artists!![0].name, album.name)
-        albumTrackNumber.text = resources.getQuantityString(R.plurals.tracks, album.tracks?.total ?: 1)
+        titleTV.text = String.format(Locale.getDefault(), "%s - %s", album.artists!![0].name, album.name)
+        subtitleTV.text = resources.getQuantityString(R.plurals.tracks, album.tracks?.total ?: 1)
 
         album.images?.let {
             if (it.isNotEmpty()) {
@@ -112,16 +134,30 @@ class AlbumActivity : BaseActivity(), TracksAdapter.TrackListListener {
             }
         }
 
-        trackRecyclerView.apply {
+        recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             val mDividerItemDecoration = DividerItemDecoration(context, (layoutManager as LinearLayoutManager).orientation)
             mDividerItemDecoration.setDrawable(drawable(R.drawable.recyclerview_divider)!!)
             addItemDecoration(mDividerItemDecoration)
 
             album.tracks?.items?.let {
-                adapter = TracksAdapter(this@AlbumActivity, it, this@AlbumActivity)
+                adapter = TracksAdapter(this@DetailsActivity, it, this@DetailsActivity)
             }
         }
+
+        loader.gone()
+    }
+
+    private fun initView(playlistResponse: PlaylistResponse) {
+        recyclerView.apply {
+            layoutManager = GridLayoutManager(context, 2)
+
+            playlistResponse.items?.let {
+                adapter = PlaylistAdapter(this@DetailsActivity, it, this@DetailsActivity)
+            }
+        }
+
+        loader.gone()
     }
 
     private fun addAlbumToFavorite() {
@@ -157,5 +193,9 @@ class AlbumActivity : BaseActivity(), TracksAdapter.TrackListListener {
     override fun onFavoriteClicked(track: Track) {
         // TODO: API call to add or remove the track
         // TODO: Add "user-library-modify" to the permission while getting token
+    }
+
+    override fun onPlaylistSelected(playList: PlayList) {
+        // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

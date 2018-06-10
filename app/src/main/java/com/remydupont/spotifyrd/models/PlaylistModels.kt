@@ -5,6 +5,10 @@ package com.remydupont.spotifyrd.models
  *
  * Created by remydupont on 09/06/2018.
  */
+data class PlayListObject(
+        var playlists: PlaylistResponse
+)
+
 data class PlaylistResponse(
         var href: String? = null,
         var items: List<PlayList>? = null,

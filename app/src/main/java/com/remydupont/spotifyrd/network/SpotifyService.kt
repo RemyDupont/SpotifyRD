@@ -24,6 +24,9 @@ interface SpotifyService {
     @GET("v1/browse/categories")
     fun getCategories(): Call<CategoriesResponse>
 
+    @GET("v1/browse/categories/{category_id}/playlists")
+    fun getCategory(@Path("category_id") categoryId: String): Call<PlayListObject>
+
     @GET("v1/search")
     fun search(
             @Query("q") query: String,

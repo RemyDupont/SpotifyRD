@@ -15,7 +15,7 @@ import com.squareup.picasso.Picasso
  *
  * Created by remydupont on 09/06/2018.
  */
-class CategoriesAdapter(var items: List<Category>): RecyclerView.Adapter<CategoriesAdapter.CategoryViewHolder>() {
+class CategoriesAdapter(var items: List<Category>, var listener: CategoryListener): RecyclerView.Adapter<CategoriesAdapter.CategoryViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
@@ -51,6 +51,15 @@ class CategoriesAdapter(var items: List<Category>): RecyclerView.Adapter<Categor
                             .into(categoryBackground)
                 }
             }
+
+            itemView.setOnClickListener {
+                listener.onItemClicked(category)
+            }
         }
+    }
+
+
+    interface CategoryListener {
+        fun onItemClicked(category: Category)
     }
 }

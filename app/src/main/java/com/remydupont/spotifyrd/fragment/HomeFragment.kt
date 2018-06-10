@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.remydupont.spotifyrd.R
-import com.remydupont.spotifyrd.activity.AlbumActivity
+import com.remydupont.spotifyrd.activity.DetailsActivity
 import com.remydupont.spotifyrd.adapter.HorizontalAlbumAdapter
 import com.remydupont.spotifyrd.adapter.HorizontalFeaturedAdapter
 import com.remydupont.spotifyrd.extension.fetch
@@ -110,7 +110,7 @@ class HomeFragment: BaseFragment(), HorizontalAlbumAdapter.AlbumListener {
 
 
     override fun onItemSelected(album: Album) {
-        val intent = Intent(activity, AlbumActivity::class.java).apply {
+        val intent = Intent(activity, DetailsActivity::class.java).apply {
             putExtra(Constants.ARG_ALBUM_ID, album.id)
         }
         startActivity(intent)

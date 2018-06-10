@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".activity.AlbumActivity">
+    tools:context=".activity.DetailsActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -46,7 +46,7 @@
                 app:layout_collapseParallaxMultiplier="0.58">
 
                 <TextView
-                    android:id="@+id/albumTitle"
+                    android:id="@+id/titleTV"
                     android:textStyle="bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
                     tools:text="Artists - Album"/>
 
                 <TextView
-                    android:id="@+id/albumTrackNumber"
+                    android:id="@+id/subtitleTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"

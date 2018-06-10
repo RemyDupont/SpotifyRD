@@ -34,7 +34,7 @@
             android:theme="@style/AppTheme"/>
         <activity
             android:label="@string/title_activity_album"
-            android:name=".activity.AlbumActivity"
+            android:name=".activity.DetailsActivity"
             android:theme="@style/AppTheme">
         </activity>
     </application>
