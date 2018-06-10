@@ -28,7 +28,7 @@ open class BaseActivity: AppCompatActivity(), Player.NotificationCallback, Conne
      * Open Functions
      */
     open fun initPlayer() {
-        val playerConfig = Config(this, SharedPrefHelper.getInstance().spotifyToken, getString(R.string.client_id))
+        val playerConfig = Config(this, SharedPrefHelper.instance.spotifyToken, getString(R.string.client_id))
         Spotify.getPlayer(playerConfig, this, object : SpotifyPlayer.InitializationObserver {
             override fun onInitialized(spotifyPlayer: SpotifyPlayer) {
                 mPlayer = spotifyPlayer

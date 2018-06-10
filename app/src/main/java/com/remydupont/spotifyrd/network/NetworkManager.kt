@@ -38,8 +38,8 @@ class NetworkManager {
                     .header("Cache-Control", "no-cache")
                     .header("Accept", "application/json")
 
-            val token = SharedPrefHelper.getInstance().spotifyToken ?: null
-            token?.let {
+            val token = SharedPrefHelper.instance.spotifyToken
+            if (token.isNotEmpty()) {
                 request.header("Authorization", "Bearer $token")
             }
 

@@ -18,13 +18,12 @@ class LoginActivity : AppCompatActivity(){
         setContentView(R.layout.activity_login)
 
 
-        if (SharedPrefHelper.getInstance().spotifyToken != null
-                && SharedPrefHelper.getInstance().spotifyToken.isNotEmpty()
-                && SharedPrefHelper.getInstance().isTokenValid) {
+        if (SharedPrefHelper.instance.spotifyToken.isNotEmpty()
+                && SharedPrefHelper.instance.isTokenValid) {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         } else {
-            SharedPrefHelper.getInstance().deleteSpotifyToken()
+            SharedPrefHelper.instance.deleteSpotifyToken()
             init()
         }
 
@@ -36,7 +35,7 @@ class LoginActivity : AppCompatActivity(){
         if (requestCode == LoginActivity.REQUEST_CODE) {
             val response = AuthenticationClient.getResponse(resultCode, intent)
             if (response.type == AuthenticationResponse.Type.TOKEN) {
-                SharedPrefHelper.getInstance().storeSpotifyToken(response.accessToken)
+                SharedPrefHelper.instance.storeSpotifyToken(response.accessToken)
                 Toast.makeText(this, "Log In :)", Toast.LENGTH_LONG).show()
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
