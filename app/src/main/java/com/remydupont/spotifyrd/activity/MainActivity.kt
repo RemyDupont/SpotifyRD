@@ -12,12 +12,14 @@ import com.remydupont.spotifyrd.R
 import com.remydupont.spotifyrd.extension.*
 import com.remydupont.spotifyrd.fragment.DiscoverFragment
 import com.remydupont.spotifyrd.fragment.SearchFragment
+import com.remydupont.spotifyrd.helper.Constants
 import com.remydupont.spotifyrd.models.Track
 import com.spotify.sdk.android.player.Player
 import com.spotify.sdk.android.player.Error
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.bottom_sheet.*
+import java.util.*
 
 
 class MainActivity : BaseActivity(), PlayerListener {
@@ -86,6 +88,8 @@ class MainActivity : BaseActivity(), PlayerListener {
                     }
                     STATE_COLLAPSED -> {
                         collapsedLayout.alpha = 1F
+                        if (!collapsedLayout.isVisible())
+                            collapsedLayout.visible()
                     }
                     STATE_DRAGGING -> {
                         if (!collapsedLayout.isVisible())
@@ -112,6 +116,9 @@ class MainActivity : BaseActivity(), PlayerListener {
         songTitleCollapsed.text = track.name
         songTitleExpanded.text = track.name
 
+        artistTextView.text = track.artists?.get(0)?.name ?: "Artist"
+        albumTextView.text = track.album?.name ?: "Album"
+
         track.album?.images?.let {
             if (it.isNotEmpty()) {
                 Picasso.get()
@@ -131,7 +138,7 @@ class MainActivity : BaseActivity(), PlayerListener {
         val durationSeconds = (track.duration_ms ?: 0)/ 1000
         val minutes = durationSeconds.div(60)
         val seconds = durationSeconds % 60
-        totalTime.text = "$minutes:$seconds"
+        totalTime.text = String.format(Locale.getDefault(), "%d:%d", minutes, seconds)
     }
 
     private fun togglePlay() {
@@ -150,7 +157,7 @@ class MainActivity : BaseActivity(), PlayerListener {
         mPlayer?.resume {}
     }
 
-    private fun replaceFragment(fragment: Fragment, tag: String = "", addToBackStack: Boolean = false) {
+    private fun replaceFragment(fragment: Fragment, tag: String = Constants.EMPTY_STRING, addToBackStack: Boolean = false) {
 
         val ft = supportFragmentManager.beginTransaction()
         if (addToBackStack)

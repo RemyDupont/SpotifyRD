@@ -1,36 +1,46 @@
 package com.remydupont.spotifyrd.activity
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import android.view.Menu
+import android.view.MenuItem
 import com.remydupont.spotifyrd.R
 import com.remydupont.spotifyrd.adapter.TracksAdapter
+import com.remydupont.spotifyrd.extension.drawable
 import com.remydupont.spotifyrd.extension.fetch
-import com.remydupont.spotifyrd.extension.longToast
 import com.remydupont.spotifyrd.helper.Constants
 import com.remydupont.spotifyrd.models.Album
+import com.remydupont.spotifyrd.models.Track
 import com.remydupont.spotifyrd.network.NetworkManager
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_album.*
 import kotlinx.android.synthetic.main.content_album.*
 import java.util.*
-import android.support.v7.widget.DividerItemDecoration
-import com.remydupont.spotifyrd.extension.drawable
 
 
-class AlbumActivity : AppCompatActivity() {
+class AlbumActivity : BaseActivity(), TracksAdapter.TrackListListener {
 
+    private var isFavorite = false
+    private var isPlaying = false
+
+    companion object {
+        private const val ACTION_ADD_FAVORITE = 0
+        private const val ACTION_REMOVE_FAVORITE = 1
+    }
+
+    /**
+     * System Callbacks
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_album)
-        toolbar_layout.title = ""
-        toolbar.title = ""
+        toolbar_layout.title = Constants.EMPTY_STRING
+        toolbar.title = Constants.EMPTY_STRING
         setSupportActionBar(toolbar)
         fab.setOnClickListener { _ ->
-            playAlbum()
+            togglePlayPause()
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -40,6 +50,39 @@ class AlbumActivity : AppCompatActivity() {
             getAlbum(id)
 
     }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+
+        menu?.clear()
+
+        var action = ACTION_ADD_FAVORITE
+        var title = "Add To Favorites"
+        var iconResourceId = R.drawable.ic_favorite_empty_white
+
+        if (isFavorite) {
+            action = ACTION_REMOVE_FAVORITE
+            title = "Remove FRom Favorites"
+            iconResourceId = R.drawable.ic_favorite_white
+        }
+
+        menu?.add(0, action, Menu.NONE, title)
+                ?.setIcon(iconResourceId)
+                ?.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+
+        return super.onPrepareOptionsMenu(menu)
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item?.itemId) {
+            ACTION_ADD_FAVORITE -> { addAlbumToFavorite() }
+            ACTION_REMOVE_FAVORITE -> { removeAlbumFromFavorite() }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+
+
 
 
     /**
@@ -75,12 +118,43 @@ class AlbumActivity : AppCompatActivity() {
             addItemDecoration(mDividerItemDecoration)
 
             album.tracks?.items?.let {
-                adapter = TracksAdapter(it)
+                adapter = TracksAdapter(this@AlbumActivity, it, this@AlbumActivity)
             }
         }
     }
 
-    private fun playAlbum() {
+    private fun addAlbumToFavorite() {
+        isFavorite = true
+        invalidateOptionsMenu()
+    }
 
+    private fun removeAlbumFromFavorite() {
+        isFavorite = false
+        invalidateOptionsMenu()
+    }
+
+    private fun togglePlayPause() {
+        if (isPlaying) {
+            isPlaying = false
+            fab.setImageDrawable(drawable(R.drawable.ic_play))
+        } else {
+            isPlaying = true
+            fab.setImageDrawable(drawable(R.drawable.ic_pause_white))
+        }
+    }
+
+
+
+
+    /**
+     * Interface Implementation
+     */
+    override fun onTrackSelected(track: Track) {
+        // TODO: Play the selected track
+    }
+
+    override fun onFavoriteClicked(track: Track) {
+        // TODO: API call to add or remove the track
+        // TODO: Add "user-library-modify" to the permission while getting token
     }
 }
