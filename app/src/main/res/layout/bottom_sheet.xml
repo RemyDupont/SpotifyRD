@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorSecondary"
@@ -12,15 +13,20 @@
     <TextView
         android:id="@+id/songTitleExpanded"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="1"
         android:text="@string/bottom_sheet_track_title"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/collapseBtn"
         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -201,15 +207,18 @@
         <TextView
             android:id="@+id/songTitleCollapsed"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginStart="8dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
             android:text="@string/bottom_sheet_track_title"
             android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/collapsedLayout"
+            app:layout_constraintEnd_toStartOf="@+id/previousBtn"
             app:layout_constraintStart_toEndOf="@+id/expandBtn"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.516"/>
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageView
             android:id="@+id/albumThumb"
@@ -231,13 +240,11 @@
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
             android:contentDescription="@string/previous_track"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="w,1:1"
             app:layout_constraintEnd_toStartOf="@+id/playPauseBtn"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toEndOf="@+id/songTitleCollapsed"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_previous"/>
 
@@ -247,15 +254,11 @@
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
             android:contentDescription="@string/next_track"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/albumThumb"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/playPauseBtn"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/ic_next"/>
 
         <ImageView
@@ -264,15 +267,12 @@
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:contentDescription="@string/play_pause"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/nextBtn"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/previousBtn"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/ic_pause_white"/>
 
         <ImageView

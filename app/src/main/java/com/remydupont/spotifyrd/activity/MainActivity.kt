@@ -75,6 +75,8 @@ class MainActivity : BaseActivity(), PlayerListener {
         }
 
         bottomNavigationView.selectedItemId = R.id.action_home
+
+        songTitleExpanded.alpha = 0F
     }
 
     private fun initBottomSheet() {
@@ -84,15 +86,19 @@ class MainActivity : BaseActivity(), PlayerListener {
                 // Offset == 1 when expanded, == 0 when collapsed
                 val alpha = Math.abs(slideOffset - 1.0)
                 collapsedLayout.alpha = alpha.toFloat()
+
+                songTitleExpanded.alpha = slideOffset
             }
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when(newState) {
                     STATE_EXPANDED -> {
+                        songTitleExpanded.alpha = 1F
                         collapsedLayout.alpha = 0F
                         collapsedLayout.gone()
                     }
                     STATE_COLLAPSED -> {
+                        songTitleExpanded.alpha = 0F
                         collapsedLayout.alpha = 1F
                         if (!collapsedLayout.isVisible())
                             collapsedLayout.visible()
