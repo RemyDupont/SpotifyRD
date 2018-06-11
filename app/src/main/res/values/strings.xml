@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SpotifyRD</string>
+    <string name="app_name">SpotifySample</string>
     <string name="title_activity_album">AlbumActivity</string>
 
     <!-- Login Screen -->
