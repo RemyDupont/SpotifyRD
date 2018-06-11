@@ -37,3 +37,5 @@ class KTOperationCallback: Player.OperationCallback {
 
 inline fun Player.pause(init: KTOperationCallback.() -> Unit) = pause(KTOperationCallback().apply(init))
 inline fun Player.resume(init: KTOperationCallback.() -> Unit) = resume(KTOperationCallback().apply(init))
+inline fun Player.next(init: KTOperationCallback.() -> Unit) = skipToNext(KTOperationCallback().apply(init))
+inline fun Player.previous(init: KTOperationCallback.() -> Unit) = skipToPrevious(KTOperationCallback().apply(init))

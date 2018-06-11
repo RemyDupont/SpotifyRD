@@ -2,6 +2,7 @@ package com.remydupont.spotifyrd.extension
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.support.annotation.StringRes
 import android.support.v4.app.Fragment
@@ -56,6 +57,14 @@ fun Context.string(resId: Int): String = getString(resId) ?: Constants.EMPTY_STR
 fun Fragment.string(resId: Int): String = activity?.string(resId) ?: Constants.EMPTY_STRING
 
 
+
+/**
+ *      Colors
+ */
+fun Context?.color(resId: Int) : Int {
+    return if (this != null) ContextCompat.getColor(this, resId) else Color.BLACK
+}
+fun Fragment.color(resId: Int): Int = activity.color(resId)
 
 
 

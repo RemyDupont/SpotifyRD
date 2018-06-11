@@ -5,18 +5,15 @@ import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.BottomSheetBehavior.*
 import android.support.v4.app.Fragment
 import android.view.View
-import android.widget.Toast
-import com.remydupont.spotifyrd.fragment.HomeFragment
-import com.remydupont.spotifyrd.listener.PlayerListener
 import com.remydupont.spotifyrd.R
 import com.remydupont.spotifyrd.extension.*
 import com.remydupont.spotifyrd.fragment.DiscoverFragment
+import com.remydupont.spotifyrd.fragment.HomeFragment
 import com.remydupont.spotifyrd.fragment.SearchFragment
 import com.remydupont.spotifyrd.helper.Constants
 import com.remydupont.spotifyrd.helper.PlayerHelper
+import com.remydupont.spotifyrd.listener.PlayerListener
 import com.remydupont.spotifyrd.models.Track
-import com.spotify.sdk.android.player.Player
-import com.spotify.sdk.android.player.Error
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.bottom_sheet.*
@@ -43,6 +40,14 @@ class MainActivity : BaseActivity(), PlayerListener {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (PlayerHelper.instance.player?.playbackState?.isPlaying == true) {
+            PlayerHelper.instance.currentTrack?.let {
+                setBottomSheetTrack(it)
+            }
+        }
+    }
 
 
     /**
@@ -110,6 +115,25 @@ class MainActivity : BaseActivity(), PlayerListener {
 
         playPauseBtn.setOnClickListener { togglePlay() }
         playPauseExpanded.setOnClickListener { togglePlay() }
+
+        nextBtn.setOnClickListener { PlayerHelper.instance.next {
+            val drawableColor =
+                    if (it) color(R.color.white)
+                    else color(R.color.colorSecondaryLight)
+            nextBtn.setColorFilter(drawableColor)
+            nextExpanded.setColorFilter(drawableColor)
+        } }
+        nextExpanded.setOnClickListener { PlayerHelper.instance.next {
+            val drawableColor =
+                    if (it) color(R.color.white)
+                    else color(R.color.colorSecondaryLight)
+            nextBtn.setColorFilter(drawableColor)
+            nextExpanded.setColorFilter(drawableColor)
+        } }
+
+        previousBtn.setOnClickListener { PlayerHelper.instance.previous {  } }
+        previousExpanded.setOnClickListener { PlayerHelper.instance.previous {  } }
+
     }
 
     private fun setBottomSheetTrack(track: Track) {
@@ -155,11 +179,10 @@ class MainActivity : BaseActivity(), PlayerListener {
     }
 
     private fun resume() {
-        PlayerHelper.instance.player?.resume {}
+        PlayerHelper.instance.resume()
     }
 
     private fun replaceFragment(fragment: Fragment, tag: String = Constants.EMPTY_STRING, addToBackStack: Boolean = false) {
-
         val ft = supportFragmentManager.beginTransaction()
         if (addToBackStack)
             ft.addToBackStack(tag)
@@ -175,19 +198,12 @@ class MainActivity : BaseActivity(), PlayerListener {
      * Interface Implementation
      */
     override fun playTrack(track: Track) {
-        PlayerHelper.instance.player?.playUri(object : Player.OperationCallback {
-            override fun onSuccess() {
-            }
-            override fun onError(error: Error?) {
-                Toast.makeText(this@MainActivity, error.toString(), Toast.LENGTH_LONG).show()
-            }
-        }, track.uri, 0, 0)
-
+        PlayerHelper.instance.play(track)
         setBottomSheetTrack(track)
     }
 
     override fun pause() {
-        PlayerHelper.instance.player?.pause { }
+        PlayerHelper.instance.pause()
     }
 
 

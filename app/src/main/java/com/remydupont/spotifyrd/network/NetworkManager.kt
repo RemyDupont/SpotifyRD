@@ -3,6 +3,7 @@ package com.remydupont.spotifyrd.network
 import com.remydupont.spotifyrd.R
 import com.remydupont.spotifyrd.helper.SharedPrefHelper
 import com.remydupont.spotifyrd.application.SpotifyApplication
+import com.remydupont.spotifyrd.helper.PlayerHelper
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -14,13 +15,10 @@ import retrofit2.converter.gson.GsonConverterFactory
  */
 class NetworkManager {
 
+    private object Holder { val INSTANCE = NetworkManager() }
+
     companion object {
-        var instance: NetworkManager? = null
-        get() {
-            if (field == null)
-                instance = NetworkManager()
-            return field
-        }
+        val instance: NetworkManager by lazy { Holder.INSTANCE }
     }
 
     var service: SpotifyService

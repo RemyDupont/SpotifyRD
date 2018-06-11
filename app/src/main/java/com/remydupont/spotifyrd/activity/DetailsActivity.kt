@@ -109,7 +109,7 @@ class DetailsActivity : BaseActivity(),
      * Private Functions
      */
     private fun getAlbum(id: String) {
-        NetworkManager.instance?.service?.getAlbum(id)?.fetch {
+        NetworkManager.instance.service.getAlbum(id).fetch {
             onResponse { _, response ->
                 response?.body()?.let { initView(album = it) }
             }
@@ -117,7 +117,7 @@ class DetailsActivity : BaseActivity(),
     }
 
     private fun getPlaylist(userId: String, playlistId: String) {
-        NetworkManager.instance?.service?.getPlaylist(userId, playlistId)?.fetch {
+        NetworkManager.instance.service.getPlaylist(userId, playlistId).fetch {
             onResponse { _, response ->
                 response?.body()?.let {
                     initView(it)
@@ -127,7 +127,7 @@ class DetailsActivity : BaseActivity(),
     }
 
     private fun getCategoryPlaylists(id: String) {
-        NetworkManager.instance?.service?.getCategory(id)?.fetch {
+        NetworkManager.instance.service.getCategory(id).fetch {
             onResponse { _, response ->
                 response?.body()?.playlists?.let {
                     initView(playlistResponse = it)
@@ -233,13 +233,7 @@ class DetailsActivity : BaseActivity(),
      * Interfaces Implementation
      */
     override fun onTrackSelected(track: Track) {
-        PlayerHelper.instance.player?.playUri(object : Player.OperationCallback {
-            override fun onSuccess() {
-            }
-            override fun onError(error: Error?) {
-                Toast.makeText(this@DetailsActivity, error.toString(), Toast.LENGTH_LONG).show()
-            }
-        }, track.uri, 0, 0)
+        PlayerHelper.instance.play(track)
     }
 
     override fun onFavoriteClicked(track: Track) {
