@@ -116,23 +116,35 @@ class MainActivity : BaseActivity(), PlayerListener {
         playPauseBtn.setOnClickListener { togglePlay() }
         playPauseExpanded.setOnClickListener { togglePlay() }
 
-        nextBtn.setOnClickListener { PlayerHelper.instance.next {
+        nextBtn.setOnClickListener { PlayerHelper.instance.next { hasNext ->
             val drawableColor =
-                    if (it) color(R.color.white)
+                    if (hasNext) color(R.color.white)
                     else color(R.color.colorSecondaryLight)
             nextBtn.setColorFilter(drawableColor)
             nextExpanded.setColorFilter(drawableColor)
         } }
-        nextExpanded.setOnClickListener { PlayerHelper.instance.next {
+        nextExpanded.setOnClickListener { PlayerHelper.instance.next { hasNext ->
             val drawableColor =
-                    if (it) color(R.color.white)
+                    if (hasNext) color(R.color.white)
                     else color(R.color.colorSecondaryLight)
             nextBtn.setColorFilter(drawableColor)
             nextExpanded.setColorFilter(drawableColor)
         } }
 
-        previousBtn.setOnClickListener { PlayerHelper.instance.previous {  } }
-        previousExpanded.setOnClickListener { PlayerHelper.instance.previous {  } }
+        previousBtn.setOnClickListener { PlayerHelper.instance.previous { hasPrevious ->
+            val drawableColor =
+                    if (hasPrevious) color(R.color.white)
+                    else color(R.color.colorSecondaryLight)
+            previousBtn.setColorFilter(drawableColor)
+            previousExpanded.setColorFilter(drawableColor)
+        } }
+        previousExpanded.setOnClickListener { PlayerHelper.instance.previous { hasPrevious ->
+            val drawableColor =
+                    if (hasPrevious) color(R.color.white)
+                    else color(R.color.colorSecondaryLight)
+            previousBtn.setColorFilter(drawableColor)
+            previousExpanded.setColorFilter(drawableColor)
+        } }
 
     }
 

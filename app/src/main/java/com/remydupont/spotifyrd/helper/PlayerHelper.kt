@@ -1,5 +1,6 @@
 package com.remydupont.spotifyrd.helper
 
+import android.util.Log
 import com.remydupont.spotifyrd.extension.next
 import com.remydupont.spotifyrd.extension.pause
 import com.remydupont.spotifyrd.extension.previous
@@ -41,16 +42,21 @@ class PlayerHelper {
     }
 
     fun queue(track: Track) {
+        // Seems we can queue only one song, not a entire album or playlist
         player?.queue(object : Player.OperationCallback {
-            override fun onSuccess() {}
-            override fun onError(error: Error?) {}
+            override fun onSuccess() {
+                Log.d("Player", "Track queued Success")
+            }
+            override fun onError(error: Error?) {
+                Log.d("Player", "Track queued Failed")
+            }
         }, track.uri)
     }
 
     fun pause() {
         player?.pause {
-            onSuccess {  }
-            onError {  }
+            onSuccess {}
+            onError {}
         }
     }
 
@@ -64,7 +70,7 @@ class PlayerHelper {
     fun next(hasNext: (Boolean) -> Unit) {
         player?.next {
             onSuccess {
-                hasNext(player?.metadata?.nextTrack != null)
+                hasNext(player?.metadata?.nextTrack != null) // Even with queued tracks, always nextTrack is always null
             }
             onError {  }
         }
@@ -73,7 +79,7 @@ class PlayerHelper {
     fun previous(hasPrevious: (Boolean) -> Unit) {
         player?.previous {
             onSuccess {
-                hasPrevious(player?.metadata?.prevTrack != null)
+                hasPrevious(player?.metadata?.prevTrack != null) // Even with queued tracks, always previous is always null
             }
             onError {  }
         }

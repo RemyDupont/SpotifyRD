@@ -7,17 +7,17 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import com.remydupont.spotifyrd.R
 import com.remydupont.spotifyrd.adapter.PlaylistAdapter
 import com.remydupont.spotifyrd.adapter.TracksAdapter
-import com.remydupont.spotifyrd.extension.*
+import com.remydupont.spotifyrd.extension.drawable
+import com.remydupont.spotifyrd.extension.fetch
+import com.remydupont.spotifyrd.extension.gone
+import com.remydupont.spotifyrd.extension.string
 import com.remydupont.spotifyrd.helper.Constants
 import com.remydupont.spotifyrd.helper.PlayerHelper
 import com.remydupont.spotifyrd.models.*
 import com.remydupont.spotifyrd.network.NetworkManager
-import com.spotify.sdk.android.player.Error
-import com.spotify.sdk.android.player.Player
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_album.*
 import kotlinx.android.synthetic.main.content_album.*
@@ -31,6 +31,7 @@ class DetailsActivity : BaseActivity(),
 
     private var isFavorite = false
     private var isPlaying = false
+    private val tracks: MutableList<Track> = ArrayList()
 
     companion object {
         private const val ACTION_ADD_FAVORITE = 0
@@ -158,6 +159,8 @@ class DetailsActivity : BaseActivity(),
             addItemDecoration(mDividerItemDecoration)
 
             album.tracks?.items?.let {
+                tracks.clear()
+                it.map { track -> tracks.add(track) }
                 adapter = TracksAdapter(this@DetailsActivity, it, this@DetailsActivity)
             }
         }
@@ -185,7 +188,6 @@ class DetailsActivity : BaseActivity(),
             addItemDecoration(mDividerItemDecoration)
 
             playList.tracks?.items?.let {
-                val tracks: MutableList<Track> = ArrayList()
                 it.filter { it.track != null }
                         .map { tracks.add(it.track!!) }
                 adapter = TracksAdapter(this@DetailsActivity, tracks, this@DetailsActivity)
@@ -223,6 +225,16 @@ class DetailsActivity : BaseActivity(),
         } else {
             isPlaying = true
             fab.setImageDrawable(drawable(R.drawable.ic_pause_white))
+
+            if (tracks.isNotEmpty())
+                PlayerHelper.instance.play(tracks[0])
+
+            for ((i, track) in tracks.withIndex()) {
+                if (i > 0) {
+                    PlayerHelper.instance.queue(track)
+                }
+            }
+
         }
     }
 
