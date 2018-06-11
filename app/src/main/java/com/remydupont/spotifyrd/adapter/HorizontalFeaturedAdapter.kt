@@ -15,7 +15,10 @@ import com.squareup.picasso.Picasso
  *
  * Created by remydupont on 09/06/2018.
  */
-class HorizontalFeaturedAdapter(var items: List<PlayList>): RecyclerView.Adapter<HorizontalFeaturedAdapter.FeaturedViewHolder>() {
+class HorizontalFeaturedAdapter(
+        var items: List<PlayList>,
+        var listener: FeatureListener
+): RecyclerView.Adapter<HorizontalFeaturedAdapter.FeaturedViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeaturedViewHolder {
@@ -53,6 +56,18 @@ class HorizontalFeaturedAdapter(var items: List<PlayList>): RecyclerView.Adapter
                             .into(playlistImage)
                 }
             }
+
+            itemView.setOnClickListener {
+                listener.onItemClicked(featuredItem)
+            }
         }
+    }
+
+
+    /**
+     * Interface
+     */
+    interface FeatureListener {
+        fun onItemClicked(playList: PlayList)
     }
 }

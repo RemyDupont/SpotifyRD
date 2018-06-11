@@ -120,10 +120,6 @@ class DetailsActivity : BaseActivity(),
                     initView(it)
                 }
             }
-
-            onFailure { call, throwable ->
-                toast("Failed")
-            }
         }
     }
 
@@ -192,6 +188,17 @@ class DetailsActivity : BaseActivity(),
                 adapter = TracksAdapter(this@DetailsActivity, tracks, this@DetailsActivity)
             }
         }
+
+        playList.images?.let {
+            if (it.isNotEmpty()) {
+                Picasso.get()
+                        .load(it[0].url)
+                        .error(R.drawable.ic_audiotrack)
+                        .placeholder(R.drawable.ic_audiotrack)
+                        .into(albumCover)
+            }
+        }
+
 
         loader.gone()
     }

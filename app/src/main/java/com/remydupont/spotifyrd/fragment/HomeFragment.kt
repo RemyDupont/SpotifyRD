@@ -17,6 +17,7 @@ import com.remydupont.spotifyrd.extension.string
 import com.remydupont.spotifyrd.helper.Constants
 import com.remydupont.spotifyrd.listener.PlayerListener
 import com.remydupont.spotifyrd.models.Album
+import com.remydupont.spotifyrd.models.PlayList
 import com.remydupont.spotifyrd.models.Track
 import com.remydupont.spotifyrd.network.NetworkManager
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -26,7 +27,9 @@ import kotlinx.android.synthetic.main.fragment_home.*
  *
  * Created by remydupont on 09/06/2018.
  */
-class HomeFragment: BaseFragment(), HorizontalAlbumAdapter.AlbumListener {
+class HomeFragment: BaseFragment(),
+        HorizontalAlbumAdapter.AlbumListener,
+        HorizontalFeaturedAdapter.FeatureListener {
 
     private var playerListener: PlayerListener? = null
     private var track: Track? = null
@@ -101,7 +104,7 @@ class HomeFragment: BaseFragment(), HorizontalAlbumAdapter.AlbumListener {
                     featuredPlaylistsTitle.text = response.body()?.message ?: string(R.string.featured_playlists)
                     featuredRecyclerView.apply {
                         layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                        adapter = HorizontalFeaturedAdapter(it)
+                        adapter = HorizontalFeaturedAdapter(it, this@HomeFragment)
                     }
                 }
             }
@@ -109,9 +112,24 @@ class HomeFragment: BaseFragment(), HorizontalAlbumAdapter.AlbumListener {
     }
 
 
+    /**
+     * HorizontalAlbumAdapter.AlbumListener Implementation
+     */
     override fun onItemSelected(album: Album) {
         val intent = Intent(activity, DetailsActivity::class.java).apply {
             putExtra(Constants.ARG_ALBUM_ID, album.id)
+        }
+        startActivity(intent)
+    }
+
+
+    /**
+     * HorizontalFeaturedAdapter.FeatureListener Implementation
+     */
+    override fun onItemClicked(playList: PlayList) {
+        val intent = Intent(activity, DetailsActivity::class.java).apply {
+            putExtra(Constants.ARG_USER_ID, playList.owner!!.id)
+            putExtra(Constants.ARG_PLAYLIST_ID, playList.id)
         }
         startActivity(intent)
     }
