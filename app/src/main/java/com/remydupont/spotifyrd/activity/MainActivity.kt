@@ -13,6 +13,7 @@ import com.remydupont.spotifyrd.extension.*
 import com.remydupont.spotifyrd.fragment.DiscoverFragment
 import com.remydupont.spotifyrd.fragment.SearchFragment
 import com.remydupont.spotifyrd.helper.Constants
+import com.remydupont.spotifyrd.helper.PlayerHelper
 import com.remydupont.spotifyrd.models.Track
 import com.spotify.sdk.android.player.Player
 import com.spotify.sdk.android.player.Error
@@ -142,7 +143,7 @@ class MainActivity : BaseActivity(), PlayerListener {
     }
 
     private fun togglePlay() {
-        if (mPlayer?.playbackState?.isPlaying == true) {
+        if (PlayerHelper.instance.player?.playbackState?.isPlaying == true) {
             pause()
             playPauseBtn.setImageDrawable(drawable(R.drawable.ic_play))
             playPauseExpanded.setImageDrawable(drawable(R.drawable.ic_play))
@@ -154,7 +155,7 @@ class MainActivity : BaseActivity(), PlayerListener {
     }
 
     private fun resume() {
-        mPlayer?.resume {}
+        PlayerHelper.instance.player?.resume {}
     }
 
     private fun replaceFragment(fragment: Fragment, tag: String = Constants.EMPTY_STRING, addToBackStack: Boolean = false) {
@@ -174,7 +175,7 @@ class MainActivity : BaseActivity(), PlayerListener {
      * Interface Implementation
      */
     override fun playTrack(track: Track) {
-        mPlayer?.playUri(object : Player.OperationCallback {
+        PlayerHelper.instance.player?.playUri(object : Player.OperationCallback {
             override fun onSuccess() {
             }
             override fun onError(error: Error?) {
@@ -186,7 +187,7 @@ class MainActivity : BaseActivity(), PlayerListener {
     }
 
     override fun pause() {
-        mPlayer?.pause { }
+        PlayerHelper.instance.player?.pause { }
     }
 
 

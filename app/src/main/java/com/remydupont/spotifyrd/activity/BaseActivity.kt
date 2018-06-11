@@ -1,10 +1,13 @@
 package com.remydupont.spotifyrd.activity
 
 import android.content.Intent
+import android.os.Bundle
+import android.os.PersistableBundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.remydupont.spotifyrd.R
 import com.remydupont.spotifyrd.extension.longToast
+import com.remydupont.spotifyrd.helper.PlayerHelper
 import com.remydupont.spotifyrd.helper.SharedPrefHelper
 import com.spotify.sdk.android.player.*
 
@@ -15,8 +18,6 @@ import com.spotify.sdk.android.player.*
  * Created by remydupont on 09/06/2018.
  */
 open class BaseActivity: AppCompatActivity(), Player.NotificationCallback, ConnectionStateCallback {
-
-    open var mPlayer: Player? = null
 
     override fun onDestroy() {
         Spotify.destroyPlayer(this)
@@ -31,9 +32,11 @@ open class BaseActivity: AppCompatActivity(), Player.NotificationCallback, Conne
         val playerConfig = Config(this, SharedPrefHelper.instance.spotifyToken, getString(R.string.client_id))
         Spotify.getPlayer(playerConfig, this, object : SpotifyPlayer.InitializationObserver {
             override fun onInitialized(spotifyPlayer: SpotifyPlayer) {
-                mPlayer = spotifyPlayer
-                (mPlayer as? SpotifyPlayer)?.addConnectionStateCallback(this@BaseActivity)
-                (mPlayer as? SpotifyPlayer)?.addNotificationCallback(this@BaseActivity)
+                PlayerHelper.instance.player = spotifyPlayer
+
+                val player = PlayerHelper.instance.player
+                (player as? SpotifyPlayer)?.addConnectionStateCallback(this@BaseActivity)
+                (player as? SpotifyPlayer)?.addNotificationCallback(this@BaseActivity)
             }
 
             override fun onError(throwable: Throwable) {

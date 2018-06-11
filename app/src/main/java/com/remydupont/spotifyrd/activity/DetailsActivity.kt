@@ -7,13 +7,17 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import com.remydupont.spotifyrd.R
 import com.remydupont.spotifyrd.adapter.PlaylistAdapter
 import com.remydupont.spotifyrd.adapter.TracksAdapter
 import com.remydupont.spotifyrd.extension.*
 import com.remydupont.spotifyrd.helper.Constants
+import com.remydupont.spotifyrd.helper.PlayerHelper
 import com.remydupont.spotifyrd.models.*
 import com.remydupont.spotifyrd.network.NetworkManager
+import com.spotify.sdk.android.player.Error
+import com.spotify.sdk.android.player.Player
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_album.*
 import kotlinx.android.synthetic.main.content_album.*
@@ -52,7 +56,6 @@ class DetailsActivity : BaseActivity(),
         val albumId = intent?.extras?.getString(Constants.ARG_ALBUM_ID, Constants.EMPTY_STRING) ?: Constants.EMPTY_STRING
         val userId = intent?.extras?.getString(Constants.ARG_USER_ID, Constants.EMPTY_STRING) ?: Constants.EMPTY_STRING
         val playListId = intent?.extras?.getString(Constants.ARG_PLAYLIST_ID, Constants.EMPTY_STRING) ?: Constants.EMPTY_STRING
-
 
         if (albumId.isNotEmpty()) {
             getAlbum(albumId)
@@ -230,7 +233,13 @@ class DetailsActivity : BaseActivity(),
      * Interfaces Implementation
      */
     override fun onTrackSelected(track: Track) {
-        // TODO: Play the selected track
+        PlayerHelper.instance.player?.playUri(object : Player.OperationCallback {
+            override fun onSuccess() {
+            }
+            override fun onError(error: Error?) {
+                Toast.makeText(this@DetailsActivity, error.toString(), Toast.LENGTH_LONG).show()
+            }
+        }, track.uri, 0, 0)
     }
 
     override fun onFavoriteClicked(track: Track) {
