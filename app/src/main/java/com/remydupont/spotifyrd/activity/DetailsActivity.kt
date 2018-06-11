@@ -227,7 +227,7 @@ class DetailsActivity : BaseActivity(),
 
 
     /**
-     * Interface Implementation
+     * Interfaces Implementation
      */
     override fun onTrackSelected(track: Track) {
         // TODO: Play the selected track
