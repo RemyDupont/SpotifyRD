@@ -23,3 +23,9 @@ data class Image(
         var width: Int? = null,
         var height: Int? = null
 )
+
+
+data class Follower(
+        var href: String? = null,
+        var total: Int? = null
+)

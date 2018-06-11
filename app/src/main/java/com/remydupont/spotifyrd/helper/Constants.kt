@@ -15,6 +15,7 @@ object Constants {
     const val SEARCH_ARG_DEFAULT = "artist,album,playlist,track"
 
     const val ARG_ALBUM_ID = "argAlbumId"
+    const val ARG_USER_ID = "argUserId"
     const val ARG_PLAYLIST_ID = "argPlaylistId"
 
     const val SPOTIFY_PERMISSION_USER_READ_PRIVATE = "user-read-private"

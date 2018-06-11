@@ -1,5 +1,6 @@
 package com.remydupont.spotifyrd.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.GridLayoutManager
@@ -11,15 +12,13 @@ import com.remydupont.spotifyrd.adapter.PlaylistAdapter
 import com.remydupont.spotifyrd.adapter.TracksAdapter
 import com.remydupont.spotifyrd.extension.*
 import com.remydupont.spotifyrd.helper.Constants
-import com.remydupont.spotifyrd.models.Album
-import com.remydupont.spotifyrd.models.PlayList
-import com.remydupont.spotifyrd.models.PlaylistResponse
-import com.remydupont.spotifyrd.models.Track
+import com.remydupont.spotifyrd.models.*
 import com.remydupont.spotifyrd.network.NetworkManager
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_album.*
 import kotlinx.android.synthetic.main.content_album.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class DetailsActivity : BaseActivity(),
@@ -51,15 +50,19 @@ class DetailsActivity : BaseActivity(),
 
 
         val albumId = intent?.extras?.getString(Constants.ARG_ALBUM_ID, Constants.EMPTY_STRING) ?: Constants.EMPTY_STRING
-        if (albumId.isNotEmpty())
-            getAlbum(albumId)
-
+        val userId = intent?.extras?.getString(Constants.ARG_USER_ID, Constants.EMPTY_STRING) ?: Constants.EMPTY_STRING
         val playListId = intent?.extras?.getString(Constants.ARG_PLAYLIST_ID, Constants.EMPTY_STRING) ?: Constants.EMPTY_STRING
-        if (playListId.isNotEmpty()) {
+
+
+        if (albumId.isNotEmpty()) {
+            getAlbum(albumId)
+        } else if (userId.isNotEmpty() && playListId.isNotEmpty()) {
+            getPlaylist(userId, playListId)
+        } else if (playListId.isNotEmpty()) {
             titleTV.text = playListId
             subtitleTV.gone()
             fab.gone()
-            getPlaylist(playListId)
+            getCategoryPlaylists(playListId)
         }
 
     }
@@ -90,6 +93,7 @@ class DetailsActivity : BaseActivity(),
         when(item?.itemId) {
             ACTION_ADD_FAVORITE -> { addAlbumToFavorite() }
             ACTION_REMOVE_FAVORITE -> { removeAlbumFromFavorite() }
+            android.R.id.home -> onBackPressed()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -109,7 +113,21 @@ class DetailsActivity : BaseActivity(),
         }
     }
 
-    private fun getPlaylist(id: String) {
+    private fun getPlaylist(userId: String, playlistId: String) {
+        NetworkManager.instance?.service?.getPlaylist(userId, playlistId)?.fetch {
+            onResponse { _, response ->
+                response?.body()?.let {
+                    initView(it)
+                }
+            }
+
+            onFailure { call, throwable ->
+                toast("Failed")
+            }
+        }
+    }
+
+    private fun getCategoryPlaylists(id: String) {
         NetworkManager.instance?.service?.getCategory(id)?.fetch {
             onResponse { _, response ->
                 response?.body()?.playlists?.let {
@@ -160,6 +178,24 @@ class DetailsActivity : BaseActivity(),
         loader.gone()
     }
 
+    private fun initView(playList: PlayListFull) {
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            val mDividerItemDecoration = DividerItemDecoration(context, (layoutManager as LinearLayoutManager).orientation)
+            mDividerItemDecoration.setDrawable(drawable(R.drawable.recyclerview_divider)!!)
+            addItemDecoration(mDividerItemDecoration)
+
+            playList.tracks?.items?.let {
+                val tracks: MutableList<Track> = ArrayList()
+                it.filter { it.track != null }
+                        .map { tracks.add(it.track!!) }
+                adapter = TracksAdapter(this@DetailsActivity, tracks, this@DetailsActivity)
+            }
+        }
+
+        loader.gone()
+    }
+
     private fun addAlbumToFavorite() {
         isFavorite = true
         invalidateOptionsMenu()
@@ -196,6 +232,10 @@ class DetailsActivity : BaseActivity(),
     }
 
     override fun onPlaylistSelected(playList: PlayList) {
-        // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val intent = Intent(this, DetailsActivity::class.java).apply {
+            putExtra(Constants.ARG_USER_ID, playList.owner!!.id)
+            putExtra(Constants.ARG_PLAYLIST_ID, playList.id)
+        }
+        startActivity(intent)
     }
 }

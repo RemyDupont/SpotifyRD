@@ -37,4 +37,10 @@ interface SpotifyService {
     @GET("v1/albums/{id}")
     fun getAlbum(@Path("id") id: String): Call<Album>
 
+    @GET("v1/users/{user_id}/playlists/{playlist_id}")
+    fun getPlaylist(
+            @Path("user_id") userId: String,
+            @Path("playlist_id") playlistId: String
+    ): Call<PlayListFull>
+
 }

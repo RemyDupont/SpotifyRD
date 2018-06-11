@@ -32,8 +32,3 @@ data class Artist(
         return ViewTypeConstants.TYPE_ARTIST
     }
 }
-
-data class Follower(
-        var href: String? = null,
-        var total: Int? = null
-)

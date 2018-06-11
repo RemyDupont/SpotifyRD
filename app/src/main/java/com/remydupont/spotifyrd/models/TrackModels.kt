@@ -16,6 +16,16 @@ data class TrackResponse(
         var total: Int? = null
 )
 
+data class TrackResponseFull(
+        var href: String? = null,
+        var items: List<PlaylistTrack>? = null,
+        var limit: Int? = null,
+        var next: String? = null,
+        var offset: Int? = null,
+        var previous: String? = null,
+        var total: Int? = null
+)
+
 data class Track(
         var album: Album? = null,
         var artists: List<Artist>? = null,
